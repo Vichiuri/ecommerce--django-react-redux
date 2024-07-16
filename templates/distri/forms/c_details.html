@@ -1,0 +1,10 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %} Company Details {% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-details-edit' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Update Company Details" class="btn btn-success form-control">
+</form>
+{% endblock %}

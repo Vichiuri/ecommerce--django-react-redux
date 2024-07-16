@@ -1,0 +1,30 @@
+{% extends 'NewTheme/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-4 justify-content-center">
+    <div class="col-9">
+        <div class="card-header card-header-border-bottom" style='display: flex; justify-content: space-between;'>
+            <a href="{% url 'distributor:user-list'%}" class='btn btn-danger btn-pill text'><i class="mdi mdi-arrow-left"></i> Back to List</a>
+            <h2>Add Users Form</h2>
+        </div>
+        <div class="card card-default p-4">
+            <form enctype="multipart/form-data" action="{% url 'distributor:add-user'%}" method="post">
+                {% csrf_token %}
+                {{ form2.errors}}
+                {{ form1.errors}}
+                <table class="table table-responsive table-borderless">
+                    <tr><td>{{form2.first_name.label }} * <br> {{form2.first_name }}</td><td>{{form2.last_name.label }} *<br>{{form2.last_name }}</td></tr>
+                    <tr><td>{{form1.email.label }} *<br>{{form1.email }}</td><td>{{form2.phone.label }} *<br>{{form2.phone }}</td></tr>
+                    <tr><td>{{form2.permission_group.label }} *<br>{{form2.permission_group }}</td></tr>
+                    <tr><td>{{form2.profile_pic.label }} <br>{{form2.profile_pic }}</td></tr>
+                </table>
+                <input type="submit" value="Add User" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>		
+
+{% endblock %}

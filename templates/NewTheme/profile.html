@@ -1,0 +1,92 @@
+{% extends 'NewTheme/base.html' %}
+{% load static %}
+{%load crispy_forms_tags %}
+{% block content %}
+
+
+
+
+<div class="content-wrapper">
+    <div class="content">							
+      <div class="bg-white border rounded">
+        <div class="row no-gutters">
+            <div class="col-lg-4 col-xl-3">
+                <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
+                    <div class="card text-center widget-profile px-0 border-0">
+                        <div class="card-img mx-auto" >
+                            <img style="max-width: 100%; max-height:100%; object-fit: contain" src="{%if user.netbotuser.profile_pic %}{{ user.netbotuser.profile_pic.url }}{% else %}{% static 'images/avatar/av.png' %}{% endif %}" alt="user image">
+                        </div>
+                        <div class="card-body">
+                            <h4 class="py-2 text-dark">{{ user.netbotuser.first_name }} {{ user.netbotuser.last_name}}</h4>
+                            <p>{{ request.user.email }}</p>
+                        </div>
+                    </div>
+
+                    <hr class="w-100">
+
+                    <div class="contact-info pt-4">
+                        <h5 class="text-dark mb-1">Contact Information</h5>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Email address</p>
+                        <p>{{ user.email }}</p>
+                        <p class="text-dark font-weight-medium pt-4 mb-2">Phone Number</p>
+                        <p>{{user.netbotuser.phone }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-xl-9">
+                <div class="profile-content-right py-5">
+                    <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="true">Edit Profile Details</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content px-3 px-xl-5" id="myTabContent">
+                        <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                            <div class="col-md-12 mt-2">
+                                <!-- <div class="row"> -->
+                                    <div class="card">
+                                        <form enctype="multipart/form-data" action="{% url 'distributor:profile'  %}" method="post"> 
+                                            <div class="card-body">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="form_name" value="profile_f">
+                                                {{ pr_form|crispy }}
+                                            </div>
+                                            <div class="card-footer">
+                                            <button type="submit" class="btn btn-success form-control">Update Profile</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                <!-- </div> -->
+
+                                <!-- <div class="row"> -->
+                                    <div class="col-md-12 mt-3">
+                                        <div class="card">
+                                            <form enctype="multipart/form-data" action="{% url 'distributor:profile' %}" method="post">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Change Password</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form_name" value="pass_w_c">
+                                                    {{ pw_form|crispy }}
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" class="btn btn-success form-control">Update Password</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

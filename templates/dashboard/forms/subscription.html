@@ -1,0 +1,11 @@
+{% extends 'dashboard/forms/distributor.html' %}
+{%load crispy_forms_tags %}
+{% block back_to_list %}
+{% endblock %}
+{% block form_body %}
+    <form  action="{% url 'distributor:add-subscription'%}" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn-success form-control" value="Add Subscription">
+    </form>
+{% endblock %}

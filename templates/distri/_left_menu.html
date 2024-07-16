@@ -1,0 +1,141 @@
+{% load static %}
+<aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="#">
+                    {% if distributor.logo %}
+                    <img src="{{ distributor.logo.url }}" alt="Logo" style="max-height: 50px;width: 100px;border-radius: 20%">
+                    {% endif %}
+                    </a>
+                <a class="navbar-brand hidden" href="#">{%if distributor.logo %}<img src="{{ distributor.logo.url }}" alt="Logo">{% endif %}</a>
+            </div>
+
+            <div id="main-menu" class="main-menu collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                {% comment %}
+                 can_view_users
+                 can_view_dashboard
+                 can_manage_users
+                 can_view_salesmen
+                 can_view_orders
+                 can_manage_orders
+                 can_post_orders
+                 can_view_retailer
+                 can_manage_retailer
+                 can_view_products
+                 can_manage_products
+                 can_edit_company_details
+                 can_view_dashboard
+                 can_view_deliveries
+                 can_manage_mobile
+                {% endcomment %}
+                {% if user.dist_users.permission_group.permission.can_view_dashboard %}
+                    <li class="active">
+                        <a href="{% url 'distributor:dist-home' distributor.id distributor.name %}">
+                            <i class="menu-icon fa fa-home"> </i>Dashboard </a>
+                    </li>
+                {% endif %}
+
+                    {% if user.dist_users.permission_group.permission.can_view_salesmen %}
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="menu-icon fa fa-road"></i>Sales People</a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <li class="menu-item-has-children dropdown"><i class="fa fa-share"></i><a href="{% url 'distributor:dist-salesmen' distributor.id distributor.name %}">Sales People</a></li>
+                                <li><i class="fa fa-briefcase"></i><a href="{% url 'distributor:dist-sales-targets' distributor.id distributor.name  %}">Sales Targets</a></li>
+                            </ul>
+                        </li>
+
+
+                    {% endif %}
+
+                    {% if user.dist_users.permission_group.permission.can_view_retailer %}
+                        <li class="menu-item-has-children dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="menu-icon fa fa-road"></i>Retailers</a>
+                            <ul class="sub-menu children dropdown-menu">
+                                <li class="menu-item-has-children dropdown"><i class="fa fa-product-hunt"></i><a href="{% url 'distributor:dist-clients' distributor.id distributor.name %}">Retailers</a></li>
+                                <li><i class="fa fa-briefcase"></i><a href="{% url 'distributor:dist-locations-master' distributor.id distributor.name  %}">Retailer Locations</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% if user.dist_users.permission_group.permission.can_view_products %}
+                     <li class="menu-item-has-children dropdown">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="menu-icon fa fa-product-hunt"></i>Products</a>
+                         <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-eye"></i><a href="{% url 'distributor:dist-products' distributor.id distributor.name  %}">Products</a></li>
+{#                            <li><i class="fa fa-plus-square"></i><a href="{% url 'distributor:dist-products-add' distributor.id distributor.name  %}">Add Product</a></li>#}
+
+                             <li class="menu-item-has-children dropdown"><i class="fa fa-product-hunt"></i><a href="{% url 'distributor:dist-prCs' distributor.id distributor.name %}">Categories</a></li>
+{#                             <li class="menu-item-has-children dropdown"><i class="fa fa-product-hunt"></i><a href="{% url 'distributor:dist-prSbCats' distributor.id distributor.name %}">Sub Categories</a></li>#}
+
+                             <li><i class="fa fa-puzzle-piece"></i><a href="{% url 'distributor:dist-product-master' distributor.id distributor.name  %}">Product Master</a></li>
+                             <li><i class="fa fa-briefcase"></i><a href="{% url 'distributor:dist-price_lists' distributor.id distributor.name  %}">Price Lists</a></li>
+                         </ul>
+
+                    </li>
+                {% endif %}
+                {% if user.dist_users.permission_group.permission.can_view_orders %}
+                    <li class="">
+                        <a href="{% url 'distributor:dist-orders' distributor.id distributor.name  %}">
+                            <i class="menu-icon fa fa-suitcase"></i>Orders</a>
+                    </li>
+                {% endif %}
+
+                {% if user.dist_users.permission_group.permission.can_view_deliveries %}
+                    <li class="">
+                        <a href="{% url 'distributor:dist-deliveries' distributor.id distributor.name  %}">
+                            <i class="menu-icon fa fa-automobile"> </i>Deliveries</a>
+                    </li>
+                {% endif %}
+
+                    {% if user.dist_users.permission_group.permission.can_view_users %}
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="menu-icon fa fa-universal-access"></i>User Management</a>
+
+                        <ul class="sub-menu children dropdown-menu">
+                            <li class="active"><i class="fa fa-users"></i><a href="{% url 'distributor:dist-users' distributor.id distributor.name  %}">View Users</a></li>
+                            <li><i class="fa fa-user-secret"></i><a href="{% url 'distributor:dist-user-groups' distributor.id distributor.name %}">View User Groups</a></li>
+
+                        </ul>
+                    </li>
+                    {% endif %}
+                     <li class="">
+                        <a href="{% url 'distributor:dist-reports' distributor.id distributor.name  %}">
+                            <i class="menu-icon fa fa-book"> </i>Reports </a>
+                    </li>
+                {% if user.dist_users.permission_group.permission.can_view_users %}
+                <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="menu-icon fa fa-android"></i>Mobile App</a>
+
+                        <ul class="sub-menu children dropdown-menu">
+                            <li class="active"><i class="fa fa-mobile"></i><a href="{% url 'distributor:dist-mobile-banners' distributor.id distributor.name %}">Mobile Banners</a></li>
+                            <li><i class="fa fa-random"></i><a href="{% url 'distributor:dist-mobile-themes' distributor.id distributor.name %}">Mobile Themes</a></li>
+                            <li><i class="fa fa-bell"></i><a href="{% url 'distributor:dist-mobile-notifications' distributor.id distributor.name %}">Push Notifications</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                {% if user.dist_users.permission_group.permission.can_edit_company_details %}
+                    <li class="">
+                        <a href="{% url 'distributor:dist-offers-list' distributor.id distributor.name  %}">
+                            <i class="menu-icon fa fa-gift"> </i>Offers</a>
+                    </li>
+                {% endif %}
+                {% if user.dist_users.permission_group.permission.can_edit_company_details %}
+                    <li class="">
+                        <a href="{% url 'distributor:dist-details-edit' distributor.id distributor.name  %}">
+                            <i class="menu-icon fa fa-info-circle"> </i>Company Info</a>
+                    </li>
+                {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+    </aside><!-- /#left-panel -->

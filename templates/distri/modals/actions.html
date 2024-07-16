@@ -1,0 +1,4 @@
+
+{#        <a class="btn btn-success"> <i class="fa fa-eye"></i></a>#}
+        <a onclick='return edit_js("{{ id }}","{{ name }}")' style="border-radius: 999px;"  class="btn btn-primary text-light  p-1" data-toggle="modal" data-target="#edit-modal"> <i class="fa fa-edit"></i></a>
+        <a onclick='return delete_js("{{ id }}","{{ name }}")' style="border-radius: 999px;"  data-toggle="modal" data-target="#delete-modal" class="btn btn-danger text-light  p-1" > <i class="fa fa-trash"></i></a>

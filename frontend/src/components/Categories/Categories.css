@@ -1,0 +1,25 @@
+.add_category_img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.add_category_img img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.view_category_img {
+    height: 80px;
+    width: 80px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.view_category_img img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}

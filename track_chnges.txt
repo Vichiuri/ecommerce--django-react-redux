@@ -1,0 +1,80 @@
+flow:
+1.Subscriptions manadatory on distributor creation
+
+pin field  mandatory. Include pin checker button ..
+send email to netbot after distributor registration
+send email to distributor on change of subscription
+Overall subscriptions and audit trail...(Current Subscriptions Report)
+user logs to be included for every action
+use midnight as end time for subscription
+Count days not hours and minutes..
+
+
+
+send email to every user.. created with login details...
+
+Netbot users (change from system super users)
+
+link for every dashboard statistic
+
+
+
+view password on input
+
+dist:
+  Products instead of .... Total Products
+  settings System guide..
+  some predefined units..
+  focus cursor on first input field
+  change caption from exchange rate to compound unit
+  field caption horizontal to input fields
+  symbol of unit in brackets
+  descriptive name for compound units kg-gms
+  autosize pictures
+  fix column for categories
+  fit image size to view on all pages
+  dist-menu-order:
+   produsts-salesmen-retailers-orders
+
+  star on compulsory fields...
+  Send email to sales people
+  Currency on money fields
+  change caption on offers add page on scheme change
+  remove field prepopulation on orders page retailer,and payment terms
+  description on
+  banner positioning option(drag and ).
+  mobile order to default salesman
+  edit order on dispatch
+  sales target reports
+  add image to notifications
+
+
+  
+
+Errors:
+ cities to region adding
+ retailer missing details on edit :logo,price_level,location details.
+ No scrolling on form pages
+ edit salesperson on edit retailers
+ refresh issue on offers page...
+ remove user management from dashboard when they dont the permissions
+
+
+Dashboard Statistics:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ two factor authentication

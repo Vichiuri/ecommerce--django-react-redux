@@ -1,0 +1,20 @@
+.reports_btn {
+    border-radius: 10px;
+}
+
+.view_report_graph {
+    min-height: 500px;
+}
+
+.report_sales_round_img {
+    width: 75px;
+    height: 75px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.report_sales_round_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

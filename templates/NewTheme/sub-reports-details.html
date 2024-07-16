@@ -1,0 +1,99 @@
+{% extends 'NewTheme/distributors.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row mt-0 justify-content-center">
+    <div class="col-12 text-center">
+        <!-- Recent Order Table -->
+        <div class="card card-table-bordered" id="recent-orders">
+        <div class="card-header justify-content-between pt-2">
+            <div class="text-left d-flex align-content-center justify-content-between">
+                <h3 class='text-primary'> <i class="fa fa-clipboard"></i><i class="fa fa-user" aria-hidden="true"></i> {% for sub in subst %} {% if forloop.first %} {{sub.distributor.name}}{%endif%} {%endfor%}  Subscription Logs</h1>
+                <span><a href="{% url 'distributor:subscription-history' %}" class="badge badge-danger">Back To Subscription History List</a></span>
+            </div>
+            <!-- search form -->
+        </div>
+        <hr class="separator bg-secondary">
+        <div class="card-body pt-0 pb-5">
+            <table class="table table-bordered table-responsive" id="myTableSubReports" style="width:100%"
+                data-toggle="table"
+                data-search="true"
+                data-pagination="true"
+                data-page-list="[5, 10, 25, 50, 100, all]"
+                data-show-export="true"
+                data-show-toggle="true" 
+                data-show-fullscreen="true"
+                data-show-columns="true"
+                data-show-columns-toggle-all="true"
+                data-minimum-count-columns="10"
+                data-id-field="id">
+            <thead class='bg-primary text-light'>
+                <tr>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">#</span> </th>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">Name</span> </th>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">Company</span> </th>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">Cost</span> </th>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">Start</span> </th>
+                    <th class="text-dark" data-sortable="true" ><span style="color:white">End</span> </th>
+                </tr>
+            </thead>
+            <tbody class='table-sm'>
+                <h4 class="d-flex p-2 rounded alert-primary w-75 mr-2" style="border-left: 7px solid dodgerblue;">
+                    {% for sub in subst %} 
+                        {% if forloop.first %} 
+                            {{sub.distributor.name}}'s active subscription is:&nbsp; <span class="text-success"> {{ sub.subscription.period_length }} {{ sub.subscription.period_time }} {{ sub.subscription.name }}</span>
+                        {%endif%} 
+                    {%endfor%} 
+                </h4>
+                {% for sub in subst %}                
+                <tr>
+                    <td >{{ forloop.counter }}</td>
+                    <td >
+                        <a class="text-dark" href=""> {{ sub.subscription.period_length }} {{ sub.subscription.period_time }} {{ sub.subscription.name }}</a>
+                    </td>
+                    <td class="">{{ sub.distributor.name }}</td>
+                    <td class="">{{ sub.subscription.price|intcomma }}</td>
+                    <td class="">{{ sub.subscription_date }}</td>
+                    <td class="">{{ sub.subscription_end_date }}</td>
+                   
+                </tr>
+                {% endfor %}
+            
+            </tbody>
+            </table>
+           
+        </div>
+        </div>
+    </div>
+</div>		
+
+
+
+<script>
+    function searchFilter() {
+     // Declare variables
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("myInputSubReports");
+     filter = input.value.toUpperCase();
+     table = document.getElementById("myTableSubReports");
+     tr = table.getElementsByTagName("tr");
+ 
+     // Loop through all table rows, and hide those who don't match the search query
+     for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName("td")[1];
+         if (td) {
+         txtValue = td.textContent || td.innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+             tr[i].style.display = "";
+         } else {
+             tr[i].style.display = "none";
+         }
+         }
+     }
+     }
+ </script>
+
+{% endblock %}

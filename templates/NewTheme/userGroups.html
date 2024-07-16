@@ -1,0 +1,103 @@
+{% extends 'NewTheme/distributors.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-0 justify-content-center">
+    <div class="col-12 text-center">
+        <!-- Recent Order Table -->
+        <div class="card card-table-bordered" id="recent-orders">
+        <div class="card-header justify-content-between pt-1">
+
+            <div class="text-left d-flex justify-content-between ">
+                <span class='text-primary' style='font-size: 30px;'><i class="mdi mdi-account-multiple-check"></i> User Permission Groups &nbsp; </span>
+                <span>
+                    {% if user.netbotuser.permission_group.permission.can_manage_subscriptions %}
+                    <a type="button" class="btn btn-primary btn-pill text-light" style="margin-top:-10px" data-style="contract" href="{% url 'distributor:add-user-groups' %}">
+                        <span class="ladda-label"><i class='mdi mdi-plus'></i> Add Permission Group</span>
+                    </a>
+                    {% else %}
+                        User Permissions Groups
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        <hr class="separator bg-secondary">
+        <div class="card-body pt-0 pb-5">
+            <table class="table table-hover table-bordered table-secondary table-sm  table-striped" id="myTablePermission" style="width:100%"
+                data-toggle="table"
+                data-search="true"
+                data-pagination="true"
+                data-page-list="[5, 10, 25, 50, 100, all]"
+                data-show-export="true"
+                data-show-toggle="true" 
+                data-show-fullscreen="true"
+                data-show-columns="true"
+                data-minimum-count-columns="10"
+                data-show-columns-toggle-all="true"
+                data-id-field="id">
+            <thead class='table-sm'>
+                <tr>
+                    <th data-sortable="true">#</th>
+                    <th data-sortable="true" >Group Name</th>
+                    <th data-sortable="true" >Group Users</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody >
+                <tr>
+                    {% for usg in permission_gs %}
+                    <td >{{ forloop.counter }}</td>
+                    <td ><a class="text-dark" href=""> {{ usg.name }}</a></td>
+                    <td>{{ usg.user_group.all|length }}</td>
+                    <td class="text-left">
+
+                        {% if user.netbotuser.permission_group.permission.can_manage_user_groups %}
+                        <a onclick='return edit_js("{{ usg.id }}","{{ usg.name }}")' style="border-radius: 999px;"  class="btn btn-primary text-light" data-toggle="modal" data-target="#edit-modal"> <i class="fa fa-edit"></i></a>
+                        {% if usg.user_group.all|length == 0 %}
+                        <a onclick='return delete_js("{{ usg.id }}","{{ usg.name }}")' style="border-radius: 999px;"  data-toggle="modal" data-target="#delete-modal" class="btn btn-danger text-light" > <i class="fa fa-trash"></i></a> 
+                        {% endif %}               
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>	
+
+
+<script>
+    function searchFilter() {
+     // Declare variables
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("myInputPermission");
+     filter = input.value.toUpperCase();
+     table = document.getElementById("myTablePermission");
+     tr = table.getElementsByTagName("tr");
+ 
+     // Loop through all table rows, and hide those who don't match the search query
+     for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName("td")[1];
+         if (td) {
+         txtValue = td.textContent || td.innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+             tr[i].style.display = "";
+         } else {
+             tr[i].style.display = "none";
+         }
+         }
+     }
+     }
+ </script>
+
+{% endblock %}
+
+
+{% block edit_action %}{% url 'distributor:add-user-groups' %}{% endblock %}
+{% block  edit_md_title  %}<i class="fa fa-edit"></i> Edit Permission Group - <span id="edit__name"></span>{% endblock %}

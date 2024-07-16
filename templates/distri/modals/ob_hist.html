@@ -1,0 +1,30 @@
+{% load humanize %}
+
+
+<div id="accordion">
+    {% for ob_hist in changes %}
+    <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" href="#p{{ forloop.counter }}p">
+         {{ ob_hist.date }} ({{ ob_hist.date|naturaltime }})
+        </a>
+      </div>
+      <div id="p{{ forloop.counter }}p" class="collapse {% if forloop.counter == 1 %}show{% else %}hide{% endif %}" data-parent="#accordion">
+        <div class="card-body">
+            {% for change in ob_hist.changes %}
+      Update   {{ change.field }} from
+        {{ change.from}}
+        To
+        {{ change.to}}
+        <br>
+
+        {% endfor %}
+    By :{{ ob_hist.user }} <br>
+    Reason : {{ ob_hist.reason }}
+{#        <a href="{{ ob_hist.revert }}" class="btn btn-success form-control">Revert Change</a>#}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>

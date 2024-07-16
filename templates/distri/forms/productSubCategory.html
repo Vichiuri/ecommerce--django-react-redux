@@ -1,0 +1,10 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}Add Product Sub Category{% endblock %}
+{% block form_body %}
+<form enctype="multipart/form-data" action="{% url 'distributor:dist-prSbCat-add_edit' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Create Product Category" class="btn btn-success">
+</form>
+{% endblock %}

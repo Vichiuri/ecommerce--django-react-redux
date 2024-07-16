@@ -1,0 +1,146 @@
+ {{form.media}}
+
+
+<div class="row mb-3 mt-3">
+    <div class="col-lg-4 col-sm-12 col-md-12">
+        <label for="id_kra">Company Name *</label> {{form.name}}
+    </div>
+    <div class="col-lg-4 col-sm-12 col-md-12">
+        <label for="id_kra">Specialized Goods *</label> {{form.category}}
+    </div>
+    <div class="col-lg-4 col-sm-12 col-md-12">
+        <label for="id_kra">Subscription *</label> {{form.subscription}}
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-lg-6     col-sm-12 col-md-12">
+        <label for="id_kra">KRA Pin *</label>
+        <div class="input-group  mb-3 ">
+            {{form.kra}}
+            <div class="input-group-prepend">
+                <a class="input-group-text btn btn-primary border-right" href="" onClick="MyWindow=window.open('https://itax.kra.go.ke/KRA-Portal/pinChecker.htm?actionCode=loadWthPage&viewType=static','MyWindow',width=400,height=300); return false;" id="basic-addon1">
+                    <i class="icon-check"></i>&nbsp; KRA PIN CHECKER
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Website </label> {{form.website}}
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Email *</label> {{form.email}}
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Email 2</label> {{form.email2}}
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Phone *</label> {{form.phone}}
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Phone 2</label> {{form.phone2}}
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Contact Person Name *</label> {{form.contact_person}}
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Contact Person Phone *</label> {{form.contact_phone}}
+    </div>
+</div>
+
+<div class="row mb-3">
+</div>
+
+<div class="row mb-3">
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="">Country *</label> {{form.country}}
+    </div>
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="state_id">City/State </label>
+        <select id="state_id" name="state" class="form-control">
+
+               {% if city %}
+                <option selected value="{{ city.id }}">{{ city.city_name }}</option>
+                   {% for cit in country.cities.all %}
+                       {% if cit.id == city.id %}
+                           {% else %}
+                          <option value="{{ cit.id }}">{{ cit.city_name }}</option>
+                       {% endif %}
+                   {% endfor %}
+                {% else %}
+                <option value="">Select City</option>
+            {% endif %}
+        </select>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-lg-6 col-sm-12 col-md-12">
+        <label for="id_kra">Address *</label> {{form.address}}
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        <label for="id_kra">Description *</label><br> {{ form.media }} {{ form.description }}
+
+    </div>
+</div>
+
+<div class="row mb-3 justify-content-start">
+    <div class="col-lg-4 col-sm-12 col-md-6 ">
+        <label>Upload Distributor's Logo</label>
+
+        <img class="w-100" id='img-upload' />
+        <div class="input-group">
+            <span class="input-group-btn">
+            <span class="btn btn-default btn-file">
+                {{form.logo}}
+            </span>
+            </span>
+            <input type="text" class="form-control" readonly>
+        </div>
+        <input type="hidden" value="{{ user.netbotuser.id }}" name="created_by">
+    </div>
+</div>
+
+<!-- <table class="table table-responsive table-borderless">
+    {{form.media}}
+    <tr><td colspan="">{{form.name.label }} <br> {{form.name}}</td><td colspan="">{{form.kra.label }} <br> {{form.kra}}</td></tr>
+    <tr><td>{{form.email.label }} * <br> {{form.email }}</td><td>{{form.email2.label }} <br>{{form.email2 }}</td></tr>
+    <tr><td>{{form.phone.label }} * <br> {{form.phone }}</td><td>{{form.phone2.label }} <br> {{form.phone2 }}</td></tr>
+    <tr><td>{{form.website.label }} <br>{{form.website }}</td></tr>
+    <tr><td>{{form.country.label }} * <br>{{form.country }}</td><td>{{form.state.label }} * 
+        <select id="state_id" name="state"  class="form-control">
+            <option value="{{ city.id }}">{{ city }}</option>
+        </select>
+    </td></tr>
+    <tr><td>{{form.address.label }} * <br>{{form.address }}</td></tr>
+    <tr><td colspan="2">{{form.description.label }} * <br>{{form.description }}</td></tr>
+    <tr><td>{{form.category.label }} * <br>{{form.category }}</td><td>{{form.subscription.label }} <br>{{form.subscription }}</td></tr>
+    <tr><td>{{form.logo.label }} <br>{{form.logo}} </td></tr>
+    <tr><td> <input type="hidden" value="{{ user.netbotuser.id }}" name="created_by"></td></tr>
+</table> -->
+
+<script>
+    jQuery("#id_country").change(function() {
+        var country = jQuery("#id_country").val();
+        jQuery.ajax({
+                type: 'GET', // define the type of HTTP verb we want to use (POST for our form)
+                url: "/cities/change/" + country, // the url where we want to POST
+                data: "", // our data object
+            })
+            // using the done promise callback
+            .done(function(data) {
+
+                // log data to the console so we can see
+                document.getElementById("state_id").innerHTML = data;
+                // here we will handle errors and validation message
+            });
+    });
+</script>

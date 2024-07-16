@@ -1,0 +1,16 @@
+{% load humanize %}
+
+<li class="dropdown-header">You have {{ user.not_seen_notifications.all|length }} new notifications</li>
+
+    {% for notif in user.not_seen_notifications.all  %}
+    <li class='list-group-item p-1 mb-1'>
+      <a href="{% url 'distributor:notification_details' notif.pk %}" class="text-dark">
+        <i class="mdi mdi-account-plus"></i> {{ notif }}
+        <span class=" font-size-12 d-inline-block float-right text-primary"><i class="mdi mdi-clock-outline"></i>{{ notif.when_created|naturaltime }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  
+  <li class="dropdown-footer">
+    <a class="text-center" href="{% url 'distributor:notifications' %}"> View All </a>
+  </li>

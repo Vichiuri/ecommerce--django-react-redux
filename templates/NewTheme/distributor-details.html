@@ -1,0 +1,175 @@
+{% extends 'NewTheme/base.html' %} {% load static %} {%load crispy_forms_tags %} {% block content %}
+
+
+
+
+<div class="content-wrapper">
+    <div class="content">
+        <div class="bg-white border rounded">
+            <div class="row no-gutters">
+                <div class="col-lg-4 col-xl-3">
+                    <div class="profile-content-left pt-5 pb-3 px-3 px-xl-5">
+                        <div class="card text-center widget-profile px-0 border-0">
+                            <div class="card-img mx-auto ">
+                                <img style="max-width: 100%; max-height:100%; object-fit: contain; object-position: center;" src="{%if distributor.logo %}{{ distributor.logo.url }}{% else %}{% static 'images/avatar/av.png' %}{% endif %}" alt="user image">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="py-2 text-dark">{{ distributor.name }}</h4>
+                                <p class="text-sm">{{ distributor.email }}</p>
+                            </div>
+                        </div>
+
+                        <hr class="w-100">
+
+                        <div class="contact-info pt-4">
+                            <h5 class="text-dark mb-1">Contact Information</h5>
+                            <p class="text-dark font-weight-medium pt-4 mb-2">Email address</p>
+                            <p>{{ distributor.email }}</p>
+                            <p class="text-dark font-weight-medium pt-4 mb-2">Phone Number</p>
+                            <p>{{distributor.phone }}</p>
+                            <p class="text-dark font-weight-medium pt-4 mb-2">Api</p>
+                            <p class="d-flex justisfy-content-between">
+                                <a href="{% url 'intergration:api-token-render' distributor.id %}" class="btn btn-success btn-sm" >View API Key</a> &nbsp;
+                                <a href="{% url 'intergration:api-intergration' distributor.id %}" class="btn btn-primary btn-sm" >Generate</a>
+                            </p>
+                            <!-- <span type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId">Generate</span> -->
+                        </div>
+                    </div>
+                </div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" method="post">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter your password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="user" class="form-control" value="{{distributor.id}}">                
+                Password <br><input type="text" class="form-control" name="pwd">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div> -->
+                <div class="col-lg-8 col-xl-9">
+                    <div class="profile-content-right py-5">
+                        <ul class="nav nav-tabs px-3 px-xl-5 nav-style-border" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="timeline-tab" data-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="true">Distributor Details</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content px-3 px-xl-5" id="myTabContent">
+                            <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                                <div class="col-md-12 mt-2">
+                                    <!-- <div class="row"> -->
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class='text-white p-2 bg-primary pl-2'>Contact Details</h4>
+                                            <div class="row mb-5 mt-1 ">
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Primary Email</p>
+                                                    <p>{{distributor.email }}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Secondary Email</p>
+                                                    <p>{% if distributor.email2 %}{{distributor.email2 }}{%else%}None{%endif%}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Phone</p>
+                                                    <p>{{distributor.phone }}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Secondary Phone</p>
+                                                    <p>{% if distributor.phone2 %}{{distributor.phone2 }}{%else%}None{%endif%}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Contact Person Name</p>
+                                                    <p>{{distributor.contact_person }}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Contact Person Phone</p>
+                                                    <p>{{distributor.contact_phone }}</p>
+                                                </div>
+                                                <div class="col-12 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Website</p>
+                                                    <p>{% if distributor.website %}{{distributor.website }}{%else%}None{%endif%}</p>
+                                                </div>
+                                            </div>
+                                            <h4 class='text-white p-2 bg-success pl-2'>Business Identity</h4>
+                                            <div class="row mt-1 ">
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">KRA Pin</p>
+                                                    <p>{{distributor.kra }}</p>
+                                                </div>
+                                                <div class="col-6 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Chained Retailers</p>
+                                                    <p>{{distributor.ret_distributors.all|length }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-5">
+                                                <div class="col-12 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Specialized goods</p>
+                                                    <p>{{distributor.category }}</p>
+                                                </div>
+                                            </div>
+                                            <h4 class='text-white p-2 bg-info pl-2'>Subscription Details</h4>
+                                            <div class="row mb-5 mt-1 ">
+                                                <div class="col-4 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Subscription</p>
+                                                    <p>{{distributor.subscription }}</p>
+                                                </div>
+                                            </div>
+                                            <h4 class='text-white p-2 bg-secondary pl-2'>Location Details</h4>
+                                            <div class="row mb-5 mt-1 ">
+                                                <div class="col-4 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Country</p>
+                                                    <p>{{distributor.country }}</p>
+                                                </div>
+                                                <div class="col-4 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">State/City</p>
+                                                    <p>{{distributor.state }}</p>
+                                                </div>
+                                                <div class="col-4 pl-4">
+                                                    <p class="text-dark font-weight-medium pt-4 mb-2">Address</p>
+                                                    <p>{{distributor.address }}</p>
+                                                </div>
+                                            </div>
+                                            <h4 class='text-white p-2 bg-secondary pl-2'>Descriptions</h4>
+                                            <div class="row mb-5 mt-1 ">
+                                                <div class="col-12 pl-4">
+                                                    <p>{{distributor.description|safe }}</p>
+                                                </div>
+                                            </div>
+                                            <h4 class='text-white p-2 bg-secondary pl-2'>Api Token</h4>
+                                            <div class="row mb-5 mt-1 ">
+                                                <div class="col-12 pl-4">
+                                                    <p>{{token}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- </div> -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'NewTheme/distributors.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-0 justify-content-center">
+    <div class="col-12 text-center">
+        <!-- Recent Order Table -->
+        <div class="card card-table-bordered" id="recent-orders">
+        <div class="card-header justify-content-between pt-2 ">
+
+            <div class="text-left d-flex justify-content-between align-items-center">
+                <span class='text-primary' style='font-size: 40px;'><i class="mdi mdi-account-circle"></i> User </span>
+                <span>
+                    {% if user.netbotuser.permission_group.permission.can_manage_subscriptions %}
+                    <a type="button" class="btn btn-primary btn-pill text-light" style='margin-top: -15px;' data-style="contract" href="{% url 'distributor:add-user' %}">
+                        <span class="ladda-label" ><i class='mdi mdi-plus'></i> Add Users</span>
+                    </a>
+                    {% else %}
+                        User Groups
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+        <hr class="separator bg-secondary">
+        <div class="card-body pt-0 pb-5">
+            <table class="table table-bordered table-responsive table-striped table-sm" id="myTableUsers" style="width:100%"
+                data-toggle="table"
+                data-search="true"
+                data-pagination="true"
+                data-page-list="[5, 10, 25, 50, 100, all]"
+                data-show-export="true"
+                data-show-toggle="true" 
+                data-show-fullscreen="true"
+                data-show-columns="true"
+                data-minimum-count-columns="10"
+                data-show-columns-toggle-all="true"
+                data-id-field="id">
+            <thead class='table-bordered bg-primary'>
+                <tr>
+                    <th class="text-light" data-sortable="true">#</th>
+                    <th class="text-light" data-sortable="true" >Name</th>
+                    <th class="text-light" data-sortable="true" >Email</th>
+                    <th class="text-light" data-sortable="true" >Phone</th>
+                    <th class="text-light" data-sortable="true" >Permission Group</th>
+                    <th class="text-light">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for us in users_ %}
+                    <td class="text-dark">{{ forloop.counter }}</td>
+                    <td >
+                        <a class="text-dark" href="">{{ us.first_name }} {{ us.last_name }}</a>
+                    </td>
+                    <td class="d-none d-md-table-cell">{{ us.user.email }}</td>
+                    <td class="d-none d-md-table-cell">{{ us.phone }}</td>
+                    <td class="d-none d-md-table-cell">{{ us.permission_group.name }}</td>
+                    <td >
+                        {% if user.netbotuser.permission_group.permission.can_manage_users %}
+                        {% include 'distri/modals/actions.html' with id=us.id name=us.last_name %}
+                        {% endif %}
+                        <a style="border-radius: 999px;" href="{% url 'distributor:user_actions' us.id %}" class="btn btn-info text-light p-1"><i class="fa fa-book" aria-hidden="true"></i> </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>	
+
+
+<script>
+    function searchFilter() {
+     // Declare variables
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("myInputUsers");
+     filter = input.value.toUpperCase();
+     table = document.getElementById("myTableUsers");
+     tr = table.getElementsByTagName("tr");
+ 
+     // Loop through all table rows, and hide those who don't match the search query
+     for (i = 0; i < tr.length; i++) {
+         td = tr[i].getElementsByTagName("td")[1];
+         if (td) {
+         txtValue = td.textContent || td.innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+             tr[i].style.display = "";
+         } else {
+             tr[i].style.display = "none";
+         }
+         }
+     }
+     }
+ </script>
+
+{% endblock %}
+
+{% block edit_action %}{% url 'distributor:add-user' %}{% endblock %}
+{% block  edit_md_title  %}<i class="fa fa-edit"></i> Edit User - <span id="edit__name"></span>{% endblock %}
+{% block del_md_tittle %}<i class="fa fa-warning"></i> Delete User - <span id="del__name"></span>{% endblock %}

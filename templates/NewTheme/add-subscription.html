@@ -1,0 +1,35 @@
+{% extends 'NewTheme/base.html' %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-4 justify-content-center">
+    <div class="col-10">
+        <div class="card-header card-header-border-bottom" style='display: flex; justify-content: space-between;'>
+            <a href="{% url 'distributor:subscriptions-list'%}" class='btn btn-danger btn-pill text'><i class="mdi mdi-arrow-left"></i> Back to List</a>
+            <h2>Add Subscription Form</h2>
+        </div>
+        <div class="card card-default p-4">
+            <form enctype="multipart/form-data" action="{% url 'distributor:add-subscription'%}" method="post">
+                {% csrf_token %}
+                {{ form.errors }}
+                <table class="table table-responsive table-borderless">
+                    <tr><td>{{form.period_time.label }} * <br> {{form.period_time }}</td><td>{{form.period_length.label }} <br>{{form.period_length }}</td></tr>
+                    <tr><td>{{form.name.label }} <br>{{form.name }}</td></tr>
+                    <tr><td>{{form.price.label }} <br>{{form.price }}</td></tr>
+                    <tr><td>{{form.created_by.label }} <p class="badge badge-secondary" aria-disabled="true" style="cursor:not-allowed">{{ user|upper }}</p> {{form.created_by }}</td></tr>
+                </table>
+                <input type="submit" value="Add Subscription" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>		
+
+<script>
+    var adminName = "{{ user.id }}";
+    document.getElementById('createdByID').value = adminName;
+</script>
+
+{% endblock %}

@@ -1,0 +1,3 @@
+"""
+Mobile Endpoint Views
+"""

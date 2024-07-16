@@ -1,0 +1,116 @@
+const customPermission = [
+  {
+    name: "View User",
+    label: "can_view_users",
+    selected: false,
+    disabled: true,
+  },
+  {
+    name: "View User",
+    label: "can_manage_users",
+    selected: false,
+    disabled: true,
+  },
+  {
+    name: "View SalesMen",
+    label: "can_view_salesmen",
+    selected: false,
+    primary: "can_manage_salesmen",
+  },
+  {
+    name: "Manage Salemen",
+    label: "can_manage_salesmen",
+    selected: false,
+    secondary: "can_view_salesmen",
+  },
+  {
+    name: "View Orders",
+    label: "can_view_orders",
+    selected: false,
+    primary: "can_manage_orders",
+  },
+  {
+    name: "Manage Orders",
+    label: "can_manage_orders",
+    selected: false,
+    secondary: "can_view_orders",
+  },
+  {
+    name: "Post Orders",
+    label: "can_post_orders",
+    selected: false,
+    secondary: "can_view_orders",
+    disabled: true,
+  },
+  {
+    name: "View Retailers",
+    label: "can_view_retailer",
+    selected: false,
+    primary: "can_manage_retailer",
+  },
+  {
+    name: "Manage Retailers",
+    label: "can_manage_retailer",
+    selected: false,
+    secondary: "can_view_retailer",
+  },
+  {
+    name: "View Products",
+    label: "can_view_products",
+    selected: false,
+    primary: "can_manage_product",
+  },
+  {
+    name: "Manage Products",
+    label: "can_manage_product",
+    selected: false,
+    secondary: "can_view_products",
+  },
+  {
+    name: "View Categories",
+    label: "can_view_product_category",
+    selected: false,
+    primary: "can_manage_product_categories",
+  },
+  {
+    name: "Manage Categories",
+    label: "can_manage_product_categories",
+    selected: false,
+    secondary: "can_view_product_category",
+  },
+  {
+    name: "View Offer",
+    label: "can_view_offers",
+    selected: false,
+    primary: "can_manage_offers",
+  },
+  {
+    name: "Manage Offers",
+    label: "can_manage_offers",
+    selected: false,
+    secondary: "can_view_offers",
+  },
+  {
+    name: "Edit Company",
+    label: "can_edit_company_details",
+    selected: false,
+  },
+  {
+    name: "View Settings",
+    label: "can_view_settings",
+    selected: false,
+    primary: "can_manage_settings",
+  },
+  {
+    name: "Manage Settings",
+    label: "can_manage_settings",
+    selected: false,
+    secondary: "can_view_settings",
+  },
+  { name: "View DashBoard", label: "can_view_dashboard", selected: true },
+  { name: "View Deliveries", label: "can_view_deliveries", selected: false },
+  { name: "Manage Mobile", label: "can_manage_mobile", selected: false },
+  { name: "View Reports", label: "can_view_reports", selected: false },
+];
+
+export default customPermission;

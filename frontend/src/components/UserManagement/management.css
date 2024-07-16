@@ -1,0 +1,25 @@
+.add_mng_img {
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.add_mng_img img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.view_dist_u_img {
+    height: 70px;
+    width: 70px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.view_dist_u_img img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}

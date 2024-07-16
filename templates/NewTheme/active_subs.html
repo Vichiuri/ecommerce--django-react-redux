@@ -1,0 +1,69 @@
+{% extends 'NewTheme/distributors.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-0 justify-content-center">
+    <div class="col-12 text-center">
+        <!-- Recent Order Table -->
+        <div class="card card-table-bordered" id="recent-orders">
+        <div class="card-header justify-content-between pt-1">
+
+            <div class="text-left d-flex justify-content-between align-items-center">
+                <span class='text-primary' style='font-size: 30px;'><i class="fa fa-check-circle-o"></i> {{subs|length}} active <span class='text-success'>{{subName}}</span> subscription &nbsp;</span>
+                <span><a href="{% url 'distributor:subscriptions-list' %}" class="badge badge-danger">Back To Subscription List</a></span>
+            </div>
+        </div>
+        <!-- <hr class="separator bg-secondary"> -->
+        <div class="card-body pt-0 pb-5">
+            <table class="table table-sm table-responsive" id="myTableSubscription" style="width:100%"
+                data-toggle="table"
+                data-search="true"
+                data-pagination="true"
+                data-page-list="[5, 10, 25, 50, 100, all]"
+                data-show-export="true"
+                data-show-toggle="true" 
+                data-show-fullscreen="true"
+                data-show-columns="true"
+                data-minimum-count-columns="10"
+                data-show-columns-toggle-all="true"
+                data-id-field="id"
+            >
+            <thead class='bg-primary'>
+                <tr>
+                <th class='text-light p-1' data-sortable="true">#</th>
+                <th class='text-light p-1' data-sortable="true">Distributor Name</th>
+                <th class='text-light p-1' data-sortable="true">Period</th>
+                <th class='text-light p-1' data-sortable="true">Price</th>
+                <th class='text-light p-1' data-sortable="true">Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody class=" table-sm">
+                <tr>
+                    {% for sub in subs %}
+                    <td class="text-dark">{{ forloop.counter }}</td>
+                    <td ><a class="text-dark" href=""> {{ sub.name }}</a></td>
+                    <td class="d-none d-md-table-cell">{{ sub.subscription.period_length}} {{ sub.subscription.period_time }}</td>
+                    <td class="d-none d-md-table-cell">{{ sub.subscription.price|intcomma }}</td>
+                    <td class="d-none d-md-table-cell">{{ subHist.subscription_end_date }}</td>
+                </tr>
+                {% endfor %}
+                
+            </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>	
+
+
+
+
+{% endblock %}
+
+
+
+{% block edit_action %}{% url 'distributor:add-subscription' %}{% endblock %}
+{% block  edit_md_title  %}<i class="fa fa-edit"></i> Edit Subscription - <span id="edit__name"></span>{% endblock %}

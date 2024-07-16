@@ -1,0 +1,13 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}
+    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-mobile-banners' distributor.id distributor.name %}">&nbsp; Mobile Banners List</a>
+{% endblock %}
+{% block form_body %}
+<form enctype="multipart/form-data" action="{% url 'distributor:dist-mobile-add-banner' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Create Banner" class="btn btn-success">
+</form>
+{% endblock %}
+

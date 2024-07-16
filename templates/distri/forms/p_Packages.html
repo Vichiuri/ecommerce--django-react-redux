@@ -1,0 +1,10 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}Product Packages{% endblock %}
+{% block form_body %}
+<form enctype="multipart/form-data" action="{% url 'distributor:dist-prPack-add' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Save Product Package" class="btn btn-success form-control">
+</form>
+{% endblock %}

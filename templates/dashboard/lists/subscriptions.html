@@ -1,0 +1,38 @@
+{% extends 'dashboard/distributor_list.html' %}
+{% load humanize %}
+{% block add_to_list %}
+    {% if user.netbotuser.permission_group.permission.can_manage_subscriptions %}
+    <a href="{% url 'distributor:add-subscription' %}" class="btn btn-success">Add Subscription</a>
+    {% else %}
+        Subscription Types List
+    {% endif %}
+{% endblock %}
+
+{% block table_heads %}
+    <th data-sortable="true" >Name</th>
+    <th data-sortable="true" >Period</th>
+    <th data-sortable="true" >Price</th>
+    <th data-sortable="true" >Subscriptions</th>
+{% endblock %}
+
+{% block table_data %}
+{% for sub in subscriptions %}
+    <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ sub.name }}</td>
+    <td>{{ sub.period_length }} {{ sub.period_time }}</td>
+    <td>{{ sub.price|intcomma }}</td>
+    <td>{{ sub.sub_distributor.all|length }}</td>
+    <td>
+        {% if user.netbotuser.permission_group.permission.can_manage_subscriptions %}
+        {% include 'distri/modals/actions.html' with id=sub.id name=sub.name %}
+        {% endif %}
+    </td>
+    </tr>
+{% endfor %}
+
+{% endblock %}
+
+{% block edit_action %}{% url 'distributor:add-subscription' %}{% endblock %}
+{% block del_md_tittle %}Delete Subscription{% endblock %}
+{% block edit_md_title  %}Edit Subscription{% endblock %}

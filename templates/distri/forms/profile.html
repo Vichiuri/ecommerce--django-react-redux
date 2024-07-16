@@ -1,0 +1,58 @@
+{% extends 'distri/index.html' %}
+{%load crispy_forms_tags %}
+{% block page_body %}
+
+
+    <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                             <form enctype="multipart/form-data" action="{% url 'distributor:dist-profile' distributor.id distributor.name %}" method="post">
+
+                            <div class="card-header">
+
+                                <h4 class="card-title"> Profile Details </h4>
+                                    </div>
+<!---->
+
+                            <div class="card-body">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_name" value="profile_f">
+                                {{ pr_form|crispy }}
+
+
+                            </div>
+                                 <div class="card-footer">
+                                 <button type="submit" class="btn btn-success form-control">Update Profile</button>
+                                 </div>
+
+                             </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <form enctype="multipart/form-data" action="{% url 'distributor:dist-profile' distributor.id distributor.name %}" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Change Password</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_name" value="pass_w_c">
+                                    {{ pw_form|crispy }}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-success form-control">Update Password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+{% endblock %}

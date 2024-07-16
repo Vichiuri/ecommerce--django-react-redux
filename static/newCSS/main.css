@@ -1,0 +1,51 @@
+.visibility_view {
+  display: none;
+}
+
+.profile_dropdown_content,
+.notification_dropdown_content,
+.distributor_action_dropdown_content,
+.profile_dropdown_content {
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  padding: 10px;
+  z-index: 4;
+}
+
+.profile_dropdown_content a {
+  color: #111;
+  margin: 1px auto;
+}
+
+.profile_dropdown_content a:hover {
+  background-color: none;
+  color: #444;
+}
+
+.notification_dropdown_content {
+  min-width: 300px;
+  min-height: 400px;
+}
+.notification_dropdown_content a {
+  margin: 10px auto;
+  text-decoration: none;
+}
+
+.distributors_list_btn {
+  display: block;
+}
+
+.distributor_action_dropdown_content {
+  width: 30px;
+}
+.distributor_action_dropdown_content .dropdown-item a {
+  cursor: pointer;
+}
+
+.profile_dropdown_content {
+  z-index: 9999;
+  background-color: white;
+}

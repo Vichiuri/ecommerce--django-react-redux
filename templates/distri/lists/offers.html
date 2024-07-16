@@ -1,0 +1,46 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+{% block table_title %}
+    Orders
+{% endblock %}
+{% block add_obj_url %}
+
+     <a class="btn btn-success fa fa-plus-square" href="{% url 'distributor:dist-offers-add' distributor.id distributor.name %}">&nbsp;  Add Offer</a>
+
+{% endblock %}
+{% block table_heads %}
+    <th>#</th>
+    <th data-sortable="true">Name</th>
+    <th data-sortable="true">Display Pic</th>
+    <th data-sortable="true">Scheme</th>
+    <th data-sortable="true">Date From</th>
+    <th data-sortable="true">Date To</th>
+    <th>Actions</th>
+{% endblock %}
+{% block table_data %}
+    {% for offer in offers %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ offer.name }}</td>
+        <td>{% if offer.pic %}<img src="{{ offer.pic.url }}" style="height: 30px;width: 70px;border-radius: 25%;">{% endif %}</td>
+        <td>{{ offer }}</td>
+        <td>{{ offer.date_from }}</td>
+        <td>{{ offer.date_to}}</td>
+        <td>
+            {% include 'distri/modals/actions.html' with id=offer.id name=offer.name %}
+        </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+{% block edit_md_title %}Edit Offer{% endblock %}
+{% block del_md_tittle %}Delete Offer{% endblock %}
+{% block edit_action %}{% url 'distributor:dist-offers-add' distributor.id distributor.name %}{% endblock %}
+
+{% block moreJs %}
+    <script type="application/javascript">
+    var scheme=jQuery("input[name=scheme]").val();
+    if(scheme==='BnXEX'){
+    }
+    </script>
+{% endblock %}

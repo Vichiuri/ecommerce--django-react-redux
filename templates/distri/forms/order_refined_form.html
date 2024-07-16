@@ -1,0 +1,284 @@
+
+{% extends 'distri/index.html' %}
+{% load static %}
+{%load crispy_forms_tags %}
+{% block page_body %}
+ <div class="content mt-3 panel-group" id="accordion">
+            <div class="animated fadeIn">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <!-- new code -->
+                            <form id="form_change_ret" action="" method="get">
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <label for="select_ret_id"></label>
+                                    <select  id="select_ret_id" name="ret_id" required="required" class="form-control col-sm-7">
+{#                                    <option value="">Select Retailer</option>#}
+                                    {% comment %}{% for retailer in retailers_to_select %}
+                                    <option value="{{retailer.id  }}">{{ retailer.email }} {{ retailer.name }} ( {{ retailer.pin_no }})</option>
+                                    {% endfor %}{% endcomment %}
+
+                                    {% for retailer_ in retailers_to_select %}
+                                        {% if retailer_ == retailer %}
+                                            <option selected="selected" value="{{retailer_.id  }}">{{ retailer_.email }} {{ retailer_.name }} ( {{ retailer_.pin_no }})</option>
+
+                                            {% else %}
+                                            <option value="{{retailer_.id  }}">{{ retailer_.email }} {{ retailer_.name }} ( {{ retailer_.pin_no }})</option>
+
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                    <input type="submit" class="btn-success col-sm-3" value="Switch Retailer">
+                                    <div class="col-sm-1"></div>
+                                </div>
+                            </form>
+                            <!-- end of new code -->
+                            <div class="card-header">
+                                <a class="fa fa-reply" href="{% url 'distributor:dist-orders' distributor.id distributor.name %}">&nbsp; Back To Orders List</a>
+                            </div>
+                        <div class="card-body">
+                        <form id="place_order_form"  method="get" action="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}">
+                        <div class="form-row">
+                        <input type="hidden" name="action" value="place_order">
+                        <input type="hidden" name="ret_id" value="{{ retailer.id }}">
+                            <label for="salesman_field" class="col-sm-2"> Sales Person</label>
+                                <select id="salesman_field" name="salesman_field"  class="col-sm-4 form-control">
+                                    {% for sales_p in sales_people %}
+                                        {% if retailer.salesmen.first == sales_p %}
+                                        <option selected="selected" value="{{ sales_p.id }}">
+                                            {{ sales_p.first_name }} {{ sales_p.last_name }} {{ sales_p.phone }}
+                                        {{ sales_p }}
+                                        </option>
+                                        {% else %}
+                                        <option value="{{ sales_p.id }}">
+                                            {{ sales_p.first_name }} {{ sales_p.last_name }} {{ sales_p.phone }}
+                                        </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <div class="form-row">
+                            <label for="price_level" class="col-sm2">Applicable Price Level</label>
+                            <select id="price_level" name="price_level" class="form-control col-sm-4">
+                                 {% for price_level in price_levels %}
+                                     {% if price_level == retailer.price_level %}
+                                        <option selected="selected" value="{{ price_level.id }}">
+                                            {{ price_level.level_name }}
+
+                                        </option>
+                                     {% else %}
+                                     <option value="{{ price_level.id }}">
+                                            {{ price_level.level_name }}
+                                        </option>
+                                     {% endif %}
+                                    {% endfor %}
+                            </select>
+                        </div>
+                            <div class="form-row">
+                            <label for="payment_terms" class="col-sm2">Payment Terms</label>
+                            <select id="payment_terms" name="payment_terms" class="form-control col-sm-4">
+                                 <option value="Cash">Cash</option>
+                                 <option value="Mpesa">Mobile Money(Mpesa)</option>
+                                 <option value="Debit Card">Debit Cards</option>
+                                 <option value="Credit Card">Credit Cards</option>
+                                 <option value="Cheque">Cheque</option>
+                            </select>
+                        </div>
+                        </form>
+
+                        </div>
+
+                            <div class="card-body">
+
+                            <form  action="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}?ret_id={{ retailer.id }}" method="post">
+                                {% csrf_token %}
+                                <label>Select Product</label>
+                                {{ order_form.product }}
+                                 <label>Product Quantity</label>
+                                {{  order_form.qty }}
+                            <button type="submit" class="btn btn-success" >Add To Order</button>
+                            </form>
+                            </div>
+                        <div class="card-body">
+                                <table data-toggle="table"
+                                        class="table table-striped table-bordered ">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-sm-1">#</th>
+                                        <th class="col-sm-2">Product</th>
+                                        <th class="col-sm-2">Quantity</th>
+                                        <th class="col-sm-1">Price Per Unit</th>
+                                        <th class="col-sm-3">offers</th>
+                                        <th class="col-sm-1">Total Price</th>
+                                        <th class="col-sm-2">Actions</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for order in dist_orders %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>
+                                            {{ order.product.name }}<br>
+                                            {% if order.product.product_images.count > 0 %}
+                                                <img src="{{ order.product.product_images.first.image.url }}" style="width: 70px;height: 30px;border-radius: 30%;">
+                                            {% endif %}
+                                        </td>
+                                        <td><input id="{{ order.id }}qty" max="{{ order.product.stock_qty }}" onchange="return updateOrder('{{ order.id }}','{{ order.product.stock_qty }}')"  class="form-control border-left-0 border-right-0 border-top-0 text-center" type="number" min="1" value="{{ order.qty }}"></td>
+                                        <td>{{ order.product.price }}</td>
+                                        <td>
+                                            {% for offer_ in order.product.x_items.all %}
+                                               {{ offer_ }}<br>
+                                            {% endfor %}
+                                        </td>
+                                        <td id="td{{ order.id }}">{{ order.order_price }}</td>
+                                        <td>
+{#                                            <button type="button" class="btn btn-warning">Update </button>#}
+                                            <a href="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}?action=delete_order&order_id={{ order.id }}" class="fa fa-trash btn btn-danger"></a>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                                 <div class="card-footer" id="table_footer">
+                                     <button id="place_order_btn" type="button" class="btn btn-dark form-control">Place This Order</button>
+                                 </div>
+
+
+
+                        </div>
+                    </div>
+
+                    {% comment %}<div class="col-md-4">
+                        <div class="card">
+                            <form  action="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}?ret_id={{ retailer.id }}" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Add A Product</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% csrf_token %}
+
+                                    {{ order_form|crispy }}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-success form-control">Add a Product</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>{% endcomment %}
+                </div>
+
+            </div><!-- .animated -->
+ </div><!-- .content -->
+
+{% endblock %}
+
+    {% block select2js %}
+    <script type="application/javascript">
+   {% comment %} jQuery("select").select2('destroy');
+    {#jQuery("#td_to_sl").select2();#}
+    jQuery("#select_ret_id").select2();{% endcomment %}
+
+    jQuery("#select_ret_id").change(function (){
+        jQuery("#form_change_ret").submit();
+    })
+
+   function updateOrder(order_id,max_value){
+        var input_qty=jQuery("#"+order_id+"qty");
+        var inq_ty=input_qty.val();
+        if (inq_ty>max_value){
+            input_qty.val(max_value);
+        }else if(inq_ty<max_value){
+
+        }
+
+        var formData = {
+
+        'order_id'    : order_id,
+        'action':"update_order",
+        'pr_qty':inq_ty
+        };
+
+        // process the form
+        jQuery.ajax({
+            type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+
+
+                // here we will handle errors and validation message
+                });
+   }
+
+    jQuery("#salesman_field").change(function (){
+        var formData = {
+
+        'order_id'    : order_id,
+        'action':"update_order",
+        'pr_qty':inq_ty
+        };
+
+        // process the form
+        jQuery.ajax({
+            type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+                jQuery("#td"+order_id).html(data.total_price);
+                // here we will handle errors and validation message
+                });
+    });
+
+
+    jQuery("#price_level").change(function (){
+
+        {% comment %}var formData = {
+
+        'order_id'    : order_id,
+        'action':"update_order",
+        'pr_qty':inq_ty
+        };
+
+        // process the form
+        jQuery.ajax({
+            type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+
+
+                // here we will handle errors and validation message
+                });{% endcomment %}
+
+    });
+
+    jQuery("#place_order_btn").click(function (){
+        jQuery("#place_order_form").submit();
+    })
+
+    </script>
+
+    {% endblock %}
+
+

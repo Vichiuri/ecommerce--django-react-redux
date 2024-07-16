@@ -1,0 +1,138 @@
+{% extends 'dashboard/app.html' %}
+
+
+
+    <!-- Right Panel -->
+{% block page_content %}
+    <div id="right-panel" class="right-panel">
+
+        <!-- Header-->
+{% include 'dashboard/top_nav.html' %}
+        <!-- /header -->
+        <!-- Header-->
+
+        <div class="breadcrumbs">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>{{ d }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li class="active">{{ d }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message | safe }}
+    </div>
+    {% endfor %}
+    
+{% block page_body %}
+    {% if user.netbotuser.permission_group.permission.can_view_dashboard %}
+        <div class="content mt-3">
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card text-white bg-flat-color-1">
+                    <div class="card-body pb-0">
+                        <div class="dropdown float-right">
+                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton1" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <div class="dropdown-menu-content">
+                                    <a class="dropdown-item" href="{% url 'distributor:distributor-list' %}">View Companies</a>
+{#                                    <a class="dropdown-item" href="#">Add Company</a>#}
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="mb-0">
+                            <span class="count">{{ distributors|length }}</span>
+                        </h4>
+                        <p class="text-light"><a href="{% url 'distributor:distributor-list' %}">Registered Distributors</a></p>
+
+                        <div class="chart-wrapper px-0" style="height:70px;" height="70">
+                            <canvas id="widgetChart1"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!--/.col-->
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card text-white bg-flat-color-2">
+                    <div class="card-body pb-0">
+                        <div class="dropdown float-right">
+                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton2" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                <div class="dropdown-menu-content">
+                                    <a class="dropdown-item" href="{% url 'distributor:user-list' %}">View Users</a>
+                                    <a class="dropdown-item" href="{% url 'distributor:add-user' %}">Add User</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="mb-0">
+                            <span class="count">{{ net_users|length }}</span>
+                        </h4>
+                        <p class="text-light"><a href="{% url 'distributor:user-list'%}">System Users</a></p>
+
+                        <div class="chart-wrapper px-0" style="height:70px;" height="70">
+                            <canvas id="widgetChart2"></canvas>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--/.col-->
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="card text-white bg-flat-color-3">
+                    <div class="card-body pb-0">
+                        <div class="dropdown float-right">
+                            <button class="btn bg-transparent dropdown-toggle theme-toggle text-light" type="button" id="dropdownMenuButton3" data-toggle="dropdown">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                <div class="dropdown-menu-content">
+                                    <a class="dropdown-item" href="{% url 'distributor:user-group-list' %}">View User Groups</a>
+                                    <a class="dropdown-item" href="{% url 'distributor:add-user-groups' %}">Add User Group</a>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="mb-0">
+                            <span class="count">{{ usg_gs|length }}</span>
+                        </h4>
+                        <p class="text-light"><a href="{% url 'distributor:user-group-list'  %}">User Permission Groups</a></p>
+
+                    </div>
+
+                    <div class="chart-wrapper px-0" style="height:70px;" height="70">
+                        <canvas id="widgetChart3"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- .content -->
+    {% endif %}
+{% endblock %}
+     </div><!-- /#right-panel -->
+ {% endblock %}
+
+
+    <!-- Right Panel -->
+

@@ -1,0 +1,222 @@
+{% load humanize %}
+<!DOCTYPE html>
+<!--
+  Invoice template by invoicebus.com
+  To customize this template consider following this guide https://invoicebus.com/how-to-create-invoice-template/
+  This template is under Invoicebus Template License, see https://invoicebus.com/templates/license/
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Delivery Report</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="description" content="Invoicebus Invoice Template" />
+    <meta name="author" content="Invoicebus" />
+
+    <meta name="template-hash" content="ff0b4f896b757160074edefba8cfab3b" />
+</head>
+
+<body>
+    <div id="container">
+        <div class="invoice-top">
+            <section id="memo">
+                <div class="logo">
+                    {% if distributor.logo %}
+                        <img src="https://{{url_host}}{{distributor.logo.url}}" />
+                    {%endif%}
+                </div>
+
+                <div class="company-info">
+                    <span class="company-name">{{distributor.name}}</span>
+
+                    <span class="spacer"></span>
+
+                    <div>{{distributor.address}}</div>
+                    {% comment %}
+                    <div>{company_address}</div> {% endcomment %}
+
+                    <span class="clearfix"></span>
+
+                    <div>{{distributor.phone}}</div>
+                    <div>{{distributor.email}}</div>
+                </div>
+            </section>
+
+            <section id="invoice-info">
+
+             <section id="invoice-title-number">
+                    <span id="title">Delivery Number</span>
+                    <span id="number">#{{delivery.id}}</span>
+                </section>
+                  <span class="clearfix"></span>
+                <div>
+                    <span>Order Placed:</span>
+                    <span>Order Delivered:</span>
+                    <span>Delivery Status:</span> 
+                </div>
+                
+
+                <div>
+                    <span>{{ret_order.when_placed.date}}</span>
+                    <span>{{ret_order.when_dispatched.date}}</span>
+                    <span>
+                   {% if delivery.confirmed %}Confirmed {%else%}Pending Confirmation{%endif%} 
+                    </span> {% comment %} <span>{po_number}</span> {% endcomment %}
+                </div>
+
+              
+
+               
+            </section>
+
+            <section id="client-info">
+                <span>Bill to:</span>
+                <div>
+                    <span class="bold">{{retailer.contact_name}}</span>
+                </div>
+
+                <div>
+                    {% if retailer.contact_city %}
+                    <span>{{retailer.contact_city}} </span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <span>{{retailer.contact_phone}}</span>
+                </div>
+
+                <div>
+                    <span>{{retailer.contact_email}}</span>
+                </div>
+
+            </section>
+
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="clearfix"></div>
+        <hr class='invoice-body' />
+        <div class="invoice-body">
+            <section id="items">
+                <table cellpadding="0" cellspacing="0" >
+                    <tr>
+                        <th></th>
+                        <th>Item</th>
+                        <!-- Dummy cell for the row number and row commands -->
+                        <th>Delivered Quantity</th>
+                       
+                        {% comment %} <th>Per Price</th> {% endcomment %}
+                        {% comment %}
+                        <th>{item_discount_label}</th>
+                        <th>{item_tax_label}</th> {% endcomment %}
+                        {% comment %} <th>Total</th> {% endcomment %}
+                    </tr>
+                    {% for ao in all_orders %}
+                    <tr class="view_table_row" data-iterate="item">
+                        <td>{{forloop.counter}}</td>
+                        <!-- Don't remove this column as it's needed for the row commands -->
+                        <td>{{ao.product.name}}</td>
+                        
+                        <td>{% if ret_order.status == "Partial" %}{{ ao.qty }}{% else %}{{ ao.qty|add:ao.free_qty }}{%endif%}</td>
+                        {% comment %} <td>{{ao.per_price|intcomma}}</td>
+                        <td>{{ao.order_price}}</td> {% endcomment %}
+                    </tr>
+                    {%endfor%}
+                </table>
+            </section>
+
+            <section id="sums">
+                <table cellpadding="0" cellspacing="0" >
+                    {% comment %}
+                    <tr>
+                        <th>{amount_subtotal_label}</th>
+                        <td>{amount_subtotal}</td>
+                        <td></td>
+                    </tr>
+
+                    <tr data-iterate="tax">
+                        <th>{tax_name}</th>
+                        <td>{tax_value}</td>
+                        <td></td>
+                    </tr> {% endcomment %}
+
+                    <tr class="amount-total">
+                    __
+                        {% comment %} <th>Total</th>
+                        <td>{{ret_order.total_cost}}</td> {% endcomment %}
+                        {% comment %}
+                        <td>
+                            <div class="currency">
+                                <span>{currency_label}</span> <span>{currency}</span>
+                            </div>
+                        </td> {% endcomment %}
+                    </tr>
+
+                    <!-- You can use attribute data-hide-on-quote="true" to hide specific information on quotes.
+                 For example Invoicebus doesn't need amount paid and amount due on quotes  -->
+                    {% comment %}
+                    <tr data-hide-on-quote="true">
+                        <th>{amount_paid_label}</th>
+                        <td>{amount_paid}</td>
+                        <td></td>
+                    </tr>
+
+                    <tr data-hide-on-quote="true">
+                        <th>{amount_due_label}</th>
+                        <td>{amount_due}</td>
+                        <td></td>
+                    </tr> {% endcomment %}
+                </table>
+            </section>
+
+
+            <div class="clearfix"></div>
+
+            <section class="info-view-row">
+                <div class='view_block'>
+                    <span>Delivery Driver: </span>
+                    <br/>
+                    <span>Phone Number:</span>
+                    <br/>
+                    <span>Vehicle Number:</span>
+                    <br/>
+                </div>
+
+                <div class='view_block'>
+                    <span>{{delivery.transporter_name}}</span>
+                    <br/>
+                    <span> {{delivery.transporter_phone}}</span>
+                    <br/>
+                    <span>
+                   {{delivery.vehicle_no}}
+                    </span>
+                </div>
+
+            </section>
+
+
+            <section id="terms">
+
+                <span class="hidden">{terms_label}</span>
+                <div>{{ret_order.note}}</div>
+
+            </section>
+
+            {% comment %}
+            <div class="payment-info">
+                <div>{payment_info1}</div>
+                <div>{payment_info2}</div>
+                <div>{payment_info3}</div>
+                <div>{payment_info4}</div>
+                <div>{payment_info5}</div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+</body>
+
+</html>

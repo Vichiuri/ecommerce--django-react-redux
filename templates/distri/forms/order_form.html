@@ -1,0 +1,102 @@
+
+{% extends 'distri/index.html' %}
+{%load crispy_forms_tags %}
+{% block page_body %}
+ <div class="content mt-3 panel-group" id="accordion">
+            <div class="animated fadeIn">
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <!-- new code -->
+                            <form action="" method="get">
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+
+                                    {{ change_retailer_form.retailer }}
+                                {% comment %}<select name="ret_id" required="required" class="col-sm-7">
+
+                                    {% for retailer_ in retailers_to_select %}
+                                        {% if retailer_ == retailer %}
+                                            <option selected="selected" value="{{retailer_.id  }}">{{ retailer_.email }} {{ retailer_.name }} ( {{ retailer_.pin_no }})</option>
+
+                                            {% else %}
+                                            <option value="{{retailer_.id  }}">{{ retailer_.email }} {{ retailer_.name }} ( {{ retailer_.pin_no }})</option>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </select>{% endcomment %}
+                                    <input type="submit" class="btn-success col-sm-3" value="Switch Retailer">
+                                    <div class="col-sm-1"></div>
+                                </div>
+                            </form>
+                            <!-- end of new code -->
+                            <div class="card-header">
+                                <a class="fa fa-reply" href="{% url 'distributor:dist-orders' distributor.id distributor.name %}">&nbsp; Back To Orders List</a>
+                            </div>
+
+                            <div class="card-body">
+                                <table data-toggle="table"
+                                       data-search="true" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price Per Item</th>
+                                        <th>Actions</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for order in dist_orders %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>{{ order.product }}</td>
+                                        <td>
+                                            <input  class="form-control border-left-0 border-right-0 border-top-0 text-center" type="number" value="{{ order.qty }}">
+                                        </td>
+                                        <td>{{ order.product.price }}</td>
+                                        <td>{% include 'distri/modals/actions.html' with id=order.id name=order.product.name %}</td>
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                                 <div class="card-footer">
+                                     <a href="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}?action=place_order&ret_id={{ retailer.id }}" class="btn btn-dark form-control">Place This Order</a>
+                                 </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <form  action="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}?ret_id={{ retailer.id }}" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Add A Product</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_name" value="pass_w_c">
+                                    {{ order_form|crispy }}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-success form-control">Add a Product</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- .animated -->
+ </div><!-- .content -->
+{% endblock %}

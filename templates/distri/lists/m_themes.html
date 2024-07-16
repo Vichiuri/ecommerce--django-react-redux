@@ -1,0 +1,39 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+ {% block add_obj_url %}
+     <a class="btn btn-success fa fa-plus-square" href="{% url 'distributor:dist-mobile-add-theme' distributor.id distributor.name %}">&nbsp; Add Mobile Theme</a>
+ {% endblock %}
+{% block table_title %}
+    Mobile Themes
+{% endblock %}
+
+{% block table_heads %}
+    <th data-searchable="false">#</th>
+    <th data-sortable="true">Name</th>
+    <th>Color</th>
+    <th data-sortable="true">Current</th>
+    <th data-searchable="false">Actions</th>
+{% endblock %}
+
+{% block table_data %}
+    {% for theme in themes %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ theme.name  }}</td>
+        <td>{{ theme.color }}</td>
+            <td>
+                {% if theme.current_theme %}
+                    Current Theme
+                {% endif %}
+            </td>
+        <td>
+            {% include 'distri/modals/actions.html' with id=theme.id name=theme.name %}
+        </td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}
+
+{% block edit_md_title %}Edit Mobile Theme{% endblock %}
+{% block del_md_tittle %}Delete Mobile Theme{% endblock %}
+{% block enc_type %} enctype="multipart/form-data" {% endblock %}
+{% block edit_action %}{% url 'distributor:dist-mobile-add-theme' distributor.id distributor.name %}{% endblock %}

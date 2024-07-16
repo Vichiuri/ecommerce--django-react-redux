@@ -1,0 +1,31 @@
+{% extends 'distri/index.html' %}
+{#{% block form_title %}#}
+{#    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-users' distributor.id distributor.name %}">Users List</a>#}
+{#{% endblock %}#}
+{%load crispy_forms_tags %}
+{% block page_body %}
+<div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+{% block form_title %}
+    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-users' distributor.id distributor.name %}">&nbsp; Users List</a>
+{% endblock %}</div>
+                            <div class="card-body">
+                                {% block form_body %}
+                                <form enctype="multipart/form-data" action="{% url 'distributor:dist-users-add' distributor.id distributor.name %}" method="post">
+                                    {% csrf_token %}
+                                    {{ form2|crispy }}
+                                    {{ form1|crispy }}
+                                    <input type="submit" value="Create User" class="btn btn-success">
+                                </form>
+                                    {% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'NewTheme/base.html' %}
+{%load crispy_forms_tags %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-4 justify-content-center">
+    <div class="col-10">
+        <div class="card-header card-header-border-bottom" style='display: flex; justify-content: space-between;'>
+            <a href="{% url 'distributor:user-group-list'%}" class='btn btn-danger btn-pill text'><i class="mdi mdi-arrow-left"></i> Back to List</a>
+            <h2>Add User Permission Group Form</h2>
+        </div>
+        <div class="card card-default p-4">
+            <form enctype="multipart/form-data" action="{% url 'distributor:add-user-groups'%}" method="post">
+                {% csrf_token %}
+                <table class="table table-responsive table-borderless">
+                    <thead class="bg-primary text-light">
+                        <tr><td>View Priviledges</td><td>Manage Priviledges</td></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>{{form1.can_view_users }} {{form1.can_view_users.label }}</td><td>{{form1.can_manage_users }} {{form1.can_manage_users.label }} </td></tr>
+                        <tr><td>{{form1.can_view_user_groups }} {{form1.can_view_user_groups.label }}</td><td>{{form1.can_manage_user_groups }} {{form1.can_manage_user_groups.label }} </td></tr>
+                        <tr><td>{{form1.can_view_distributors }} {{form1.can_view_distributors.label }}</td><td>{{form1.can_manage_distributors }} {{form1.can_manage_distributors.label }} </td></tr>
+                        <tr><td>{{form1.can_view_subscriptions }} {{form1.can_view_subscriptions.label }}</td><td>{{form1.can_manage_subscriptions }} {{form1.can_manage_subscriptions.label }} </td></tr>
+                        <tr><td>{{form1.can_view_subsc_history }} {{form1.can_view_subsc_history.label }}</td></tr>
+                        <tr><td>{{form1.can_view_dashboard }} {{form1.can_view_dashboard.label }}</td></tr>
+                    </tbody>
+                </table>
+                {{ form2|crispy }}
+                <input type="submit" value="Add User Permission Group" class="btn btn-success">
+            </form>
+        </div>
+    </div>
+</div>		
+
+{% endblock %}

@@ -1,0 +1,38 @@
+.sales_round_img {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.sales_round_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.add_sales_img {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.add_sales_img img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.sale_target_img {
+    height: 40px;
+    width: 40px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.sale_target_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

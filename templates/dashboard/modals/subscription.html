@@ -1,0 +1,10 @@
+{%load crispy_forms_tags %}
+
+{{ form.errors }}
+{{ form|crispy }}
+
+
+<script>
+    var adminName = "{{ user.id }}";
+    document.getElementById('createdByID').value = adminName;
+</script>

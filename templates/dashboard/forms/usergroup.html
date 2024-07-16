@@ -1,0 +1,15 @@
+{% extends 'dashboard/forms/distributor.html' %}
+{%load crispy_forms_tags %}
+{% block back_to_list %}
+     <a href="{% url 'distributor:user-group-list' %}" class="btn btn-success fa fa-backward">Back To User Permissions List</a>
+
+{% endblock %}
+
+{% block form_body %}
+    <form action="{% url 'distributor:add-user-groups' %}" method="post">
+    {% csrf_token %}
+    {{ form1|crispy }}
+    {{ form2|crispy }}
+    <input class="form-control btn-success" type="submit" value="Add User Permission Group">
+    </form>
+{% endblock %}

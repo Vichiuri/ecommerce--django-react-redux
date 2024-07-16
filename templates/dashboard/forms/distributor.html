@@ -1,0 +1,37 @@
+{% extends 'dashboard/index.html' %}
+{%load crispy_forms_tags %}
+{% block page_body %}
+
+
+    <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+
+                                {% block back_to_list %}
+                                <a href="{% url 'distributor:distributor-list' %}" class="btn btn-success fa fa-backward">Back To List</a>
+                                {% endblock %}
+                                    </div>
+
+
+                            <div class="card-body">
+
+                                <div class="card-body">
+                                {% block form_body %}
+                                <form enctype="multipart/form-data" action="{% url 'distributor:add-dist'%}" method="post">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <input type="submit" value="Add Distributor" class="btn btn-success">
+                                </form>
+                                    {% endblock %}
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+{% endblock %}

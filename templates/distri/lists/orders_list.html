@@ -1,0 +1,224 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+ {% block add_obj_url %}
+
+             {% comment %}data-toggle="modal" data-target="#select_retailer"{% endcomment %}
+           <a  class="btn btn-success fa fa-plus-square" href="{% url 'distributor:dist-place-orders' distributor.id distributor.name %}">&nbsp; Place Order</a></a>
+ {% endblock %}
+{% block table_title %}
+    Mobile Banners
+{% endblock %}
+
+{% block table_heads %}
+
+    <th data-searchable="false">#</th>
+    <th data-searchable="false">Hist</th>
+    <th data-sortable="true">Date</th>
+    <th data-sortable="true">Order ID</th>
+    <th data-searchable="false">Retailer</th>
+    <th>Order Details</th>
+
+    <th data-searchable="false">Order Totals</th>
+{#    <th>Remarks</th>#}
+    <th data-searchable="false">Actions</th>
+
+
+{% endblock %}
+
+{% block table_data %}
+    {% for order in orders_list %}
+        <tr>
+            {% comment %}<td rowspan="{{ order.ret_orders.count }}">{{ forloop.counter }}</td>
+            <td rowspan="{{ order.ret_orders.count }}">{{ order.when_placed }}</td>
+            <td rowspan="{{ order.ret_orders.count }}">{{ order.id }}</td>
+            <td rowspan="{{ order.ret_orders.count }}">{{ order.retailer }}</td>  {% endcomment %}
+
+            <td >{{ forloop.counter }}</td>
+            <td >
+                <a data-toggle="modal" data-target="#modal_history" onclick=" return fetch_history('{% url 'distributor:ob_history' 'distributor' 'RetailOrders' order.id %}')"
+
+                    class="ob_history fa fa-history">
+                </a>
+            </td>
+            <td >{{ order.when_placed }}</td>
+            <td >#{{ order.id }}</td>
+            <td >{{ order.retailer }}</td>
+        <td>
+            {% for order_ in order.ret_orders.all %}
+              {{ order_.product.name }} &nbsp; {{order_.qty  }} <br>
+            {% endfor %}
+        </td>
+            <td>{{ order.total_cost }}</td>
+{#            <td>{{ order.note }}</td>#}
+            <td>
+                {% if order.status in 'Pending' %}
+                    <div class="row">
+                    <button data-toggle="modal" data-target="#action_modal" onclick='order_action("{{ order.id }}","approve")'
+                            class="btn btn-sm btn-success col-sm-4">Approve</button>
+                    <button data-toggle="modal" data-target="#action_modal"  onclick='order_action("{{ order.id }}","hold")'
+                            class="btn btn-sm btn-dark col-sm-4">Hold</button>
+                    <button data-toggle="modal" data-target="#action_modal"  onclick='order_action("{{ order.id }}","decline")'
+                            class="btn btn-sm btn-warning col-sm-4">Decline</button>
+                    </div>
+                    <div class="row">
+                    <p></p>
+                    </div>
+                    <div class="row">
+                    <a href="{% url 'distributor:dist-orders-edit' distributor.id distributor.name order.id %}" class="btn btn-sm btn-warning fa fa-pencil col-sm-6"></a>
+                    <a onclick='return delete_js("{{ order.id }}","Order Id #{{ order.id }}")'  data-toggle="modal" data-target="#delete-modal" class="btn btn-sm  btn-danger col-sm-6" > <i class="fa fa-trash"></i></a>
+                    </div>
+                {% elif order.status == "Declined" %}
+                    <button disabled="disabled" type="button" class="btn btn-warning">Declined</button>
+
+
+                {% elif order.status == "Approved" %}
+{#                    <button disabled="disabled" type="button" class="btn btn-success">Approved</button>#}
+
+                    <a href="{% url 'distributor:dist-orders-dispatch' distributor.id distributor.name order.id %}"
+                            class="btn btn-sm btn-warning col-sm-4">Dispatch</a>
+                {% elif order.status == "Dispatched" %}
+
+
+                {% elif order.status == "On Hold" %}
+                    <div class="row">
+                    <button disabled="disabled" type="button" class="btn btn-dark col-sm-6">Withheld</button>
+
+                    <button data-toggle="modal" data-target="#action_modal"  onclick='order_action("{{ order.id }}","release")'
+                            class="btn btn-sm btn-warning col-sm-6">Release</button>
+                    </div>
+
+                    <div class="row">
+                    <a href="{% url 'distributor:dist-orders-edit' distributor.id distributor.name order.id %}" class="btn btn-sm btn-warning fa fa-pencil col-sm-6"></a>
+                    <a onclick='return delete_js("{{ order.id }}","Order Id #{{ order.id }}")'  data-toggle="modal" data-target="#delete-modal" class="btn btn-sm  btn-danger col-sm-6" > <i class="fa fa-trash"></i></a>
+                    </div>
+
+
+
+                {% endif %}
+            </td>
+
+        </tr>
+    {% endfor %}
+
+{% endblock %}
+
+{% block edit_md_title %}Edit Order{% endblock %}
+{% block del_md_tittle %}Delete Oder{% endblock %}
+{% block enc_type %} enctype="multipart/form-data" {% endblock %}
+{% block edit_action %}{% url 'distributor:dist-mobile-add-banner' distributor.id distributor.name %}{% endblock %}
+
+{% block moreModals %}
+
+    <div class="modal fade" id="modal_history" role="dialog">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Order History</h4>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="hist_modal_content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="action_modal" role="dialog">
+
+<div class="modal-dialog modal-lg">
+    <form method="post" action="" id="form-order-action">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="action_title" ></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body" id="action_body">
+                {% csrf_token %}
+                <input id="order_id" type="hidden" name="ret_id" value="0">
+                <input id="order_id_action" type="hidden" name="action" value="0">
+                <label for="action_note">Leave A Note For Reference</label>
+                <textarea  id="action_note" class="form-control" name="note">
+
+                </textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-warning" >Proceed</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+
+{% endblock %}
+
+{% block moreJs %}
+    <script type="application/javascript">
+       function order_action(ob_id,action) {
+           jQuery("#order_id").val(ob_id);
+           jQuery("#action_title").html(action + " Order Id #" + ob_id);
+           jQuery("#order_id_action").val(action);
+           jQuery('#form-order-action').submit(function (e) {
+               var formData = {
+                   {#'csrftoken': jQuery('input[name=csrfmiddlewaretoken]').val(),#}
+                   'csrfmiddlewaretoken': jQuery('input[name=csrfmiddlewaretoken]').val(),
+                   'id': jQuery('#order_id').val(),
+                   'action': jQuery("#order_id_action").val(),
+                   'note': jQuery("#action_note").val(),
+               };
+
+               // process the form
+               jQuery.ajax({
+                   type: 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                   url: '', // the url where we want to POST
+                   data: formData, // our data object
+                   dataType: 'json', // what type of data do we expect back from the server
+                   encode: true
+               })
+                   // using the done promise callback
+                   .done(function (data) {
+
+                       // log data to the console so we can see
+                       console.log(data);
+                       Swal.fire(
+                           data.title,
+                           data.message,
+                           data.icon
+                       );
+                       if (data.icon == 'success') {
+                           location.reload();
+                       }
+                       // here we will handle errors and validation messages
+                   });
+               e.preventDefault();
+
+           });
+       }
+
+    function fetch_history(url){
+        console.log("Clicked");
+
+
+
+    jQuery.ajax({
+            type        : 'GET', // define the type of HTTP verb we want to use (POST for our form)
+            url         : url, // the url where we want to POST
+            data        : "", // our data object
+        })
+            // using the done promise callback
+            .done(function(data) {
+
+                jQuery("#hist_modal_content").html(data);
+                // here we will handle errors and validation messages
+            });
+
+
+    }
+
+
+    </script>
+{% endblock %}

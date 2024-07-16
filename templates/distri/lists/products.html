@@ -1,0 +1,52 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+{% load humanize %}
+{% block add_obj_url %}
+     <a class="btn btn-success fa fa-plus-square" href="{% url 'distributor:dist-products-add' distributor.id distributor.name %}">&nbsp; Add Product</a>
+{% endblock %}
+{% block table_title %}
+    List Of Products
+{% endblock %}
+
+{% block table_heads %}
+<th  data-searchable="false">#</th>
+<th>Pic</th>
+<th data-sortable="true">Name</th>
+<th data-sortable="true">Category</th>
+<th data-sortable="true">Price</th>
+<th data-sortable="true">Stock Qty</th>
+
+<th data-sortable="true">Description</th>
+<th data-searchable="false">Actions</th>
+{% endblock %}
+
+{% block table_data %}
+    {% for product in products %}
+        <tr>
+
+        <td>{{ forloop.counter }}</td>
+        <td>
+            <img src="{{ product.product_images.first.image.url }}"
+                 style="max-height: 50px;max-width: 200px; border-radius: 20%"
+                 alt=""
+            >
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.stock_qty }} {{ product.units.symbol }}</td>
+        <td> {{ product.description }} </td>
+        <td>
+            {% include 'distri/modals/actions.html' with id=product.id name=product.name %}
+
+            {% comment %}<a href="{% url 'distributor:dist-product-edit' distributor.id distributor.name product.id %}" class="btn btn-warning" > <i class="fa fa-edit"></i></a>
+            <a onclick='return delete_js("{{ product.id }}","{{ product.name }}")'  data-toggle="modal" data-target="#delete-modal" class="btn btn-danger" > <i class="fa fa-trash"></i></a>
+{% endcomment %}
+        </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block edit_md_title %}Edit Product{% endblock  %}
+{% block del_md_tittle %}Delete Product{% endblock %}
+{% block edit_action %}{% url 'distributor:dist-products-add' distributor.id distributor.name %}{% endblock %}
+{% block enc_type %} enctype="multipart/form-data" {% endblock %}

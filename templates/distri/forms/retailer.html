@@ -1,0 +1,21 @@
+{% extends 'distri/forms/user.html' %}
+{% load crispy_forms_filters %}
+{%load crispy_forms_tags %}
+{% block form_title %}Add Retailer{% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-clients-add' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    <a class="btn btn-primary" href="#" onClick="MyWindow=window.open('https://itax.kra.go.ke/KRA-Portal/pinChecker.htm?actionCode=loadWthPage&viewType=static','MyWindow',width=400,height=300); return false;">Pin Checker</a>
+
+    {{ form|crispy }}
+    {% comment %}{% for field in form.visible_fields %}
+        <div class="form-group" >
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        </div>
+
+    {% endfor %}{% endcomment %}
+
+<input type="submit" value="Add Retailer" class="btn btn-success form-control">
+</form>
+{% endblock %}

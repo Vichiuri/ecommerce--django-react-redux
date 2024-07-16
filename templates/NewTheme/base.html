@@ -1,0 +1,248 @@
+{% load humanize %} {% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NetBot Admin DashBoard</title>
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500|Poppins:400,500,600,700|Roboto:400,500" rel="stylesheet" />
+    <link href="https://cdn.materialdesignicons.com/3.0.39/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- PLUGINS CSS STYLE -->
+    <link href="{% static 'assets/plugins/flag-icons/css/flag-icon.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/ladda/ladda.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css">
+
+    <!-- SLEEK CSS -->
+    <link id="sleek-css" rel="stylesheet" href="{% static 'newCSS/sleek.css' %}" />
+    <link rel="stylesheet" href="{% static 'newCSS/main.css' %}" />
+
+
+
+
+    <!-- FAVICON -->
+    <link href=" https://netbotgroup.com/wp-content/uploads/2021/03/cropped-cropped-Picture2.png" rel="shortcut icon" />
+
+</head>
+
+<body class="sidebar-fixed sidebar-dark header-light header-fixed" id="body" style='z-index: 0'>
+    <div class="mobile-sticky-body-overlay"></div>
+
+    <div class="wrapper">
+
+        <aside class="left-sidebar bg-sidebar" style='z-index: 0 !important'>
+            <div id="sidebar" class="sidebar sidebar-with-footer">
+                <!-- Aplication Brand -->
+                <div class="app-brand" style="background:linear-gradient(90deg, rgb(13, 196, 228), rgb(98, 127, 225));">
+                    {% if user.netbotuser.permission_group.permission.can_view_dashboard %}
+                    <a href="{% url 'distributor:index' %}">
+                        <span style="width: 50px; height:fit-content;"><img style="max-width: 100%; max-height:100%; object-fit: contain" src="{% static 'images/netbot_logo.png' %}" alt="Netbot group logo"></span>
+                        <span class="brand-name">NetBot Dashboard</span>
+                    </a>
+                    {% else %}
+                    <a href="">
+                        <span style="width: 50px; height:fit-content;"><img style="max-width: 100%; max-height:100%; object-fit: contain" src="{% static 'images/netbot_logo.png' %}" alt="Netbot group logo"></span>
+                        <span class="brand-name">NetBot Dashboard</span>
+                    </a>
+                    {% endif %}
+                </div>
+                <!-- begin sidebar scrollbar -->
+                <div class="sidebar-scrollbar bg-dark">
+
+                    <!-- sidebar menu -->
+                    <ul class="nav sidebar-inner" id="sidebar-menu">
+                        {% if user.netbotuser.permission_group.permission.can_view_dashboard %}
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'distributor:index' %}">
+                                <i class="mdi mdi-view-dashboard-outline"></i>
+                                <span class="nav-text">Dashboard</span>
+                            </a>
+                        </li>
+                        {% endif %} {% if user.netbotuser.permission_group.permission.can_view_distributors %}
+                        <li class="has-sub ">
+                            <a class="sidenav-item-link" href="{% url 'distributor:distributor-list' %}">
+                                <i class="mdi mdi-folder-multiple-outline"></i>
+                                <span class="nav-text">Distributors</span>
+                            </a>
+                        </li>
+                        {% endif %} {% if user.netbotuser.permission_group.permission.can_view_subscriptions %}
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="{% url 'distributor:subscriptions-list' %}">
+                                <i class="mdi mdi-chart-pie"></i>
+                                <span class="nav-text">Subscription</span>
+                            </a>
+                        </li>
+                        {% endif %} {% if user.netbotuser.permission_group.permission.can_view_subsc_history %}
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="{% url 'distributor:subscription-history' %}">
+                                <i class="mdi mdi-image-filter-none"></i>
+                                <span class="nav-text">Subscription Reports</span>
+                            </a>
+                        </li>
+                        {% endif %} {% if user.netbotuser.permission_group.permission.can_view_user_groups or user.netbotuser.permission_group.permission.can_view_users %}
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#documentation" aria-expanded="false" aria-controls="documentation">
+                                <i class="mdi mdi-book-open-page-variant"></i>
+                                <span class="nav-text">User Management</span>
+                            </a>
+                            <ul class="collapse " id="documentation" data-parent="#sidebar-menu">
+                                <div class="sub-menu bg-dark">
+
+                                    {% if user.netbotuser.permission_group.permission.can_view_user_groups %}
+                                    <li>
+                                        <a class="sidenav-item-link" href="{% url 'distributor:user-group-list' %}">
+                                            <span class="nav-text">Permission Groups</span>
+                                        </a>
+                                    </li>
+                                    {% endif %} {% if user.netbotuser.permission_group.permission.can_view_users %}
+                                    <li>
+                                        <a class="sidenav-item-link" href="{% url 'distributor:user-list' %}">
+                                            <span class="nav-text">Users</span>
+                                        </a>
+                                    </li>
+                                    {% endif %} {% if user.netbotuser.permission_group.permission.can_view_users %}
+                                    <li>
+                                        <a class="sidenav-item-link" href="{% url 'distributor:logs' %}">
+                                            <span class="nav-text">Logs</span>
+                                        </a>
+                                    </li>
+                                    {% endif %} {% if user.netbotuser.permission_group.permission.can_view_users %}
+                                    <li>
+                                        <a class="sidenav-item-link" href="{% url 'distributor:aLogs' %}">
+                                            <span class="nav-text">Authentication Logs</span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+
+                                </div>
+                                {% endif %}
+                            </ul>
+
+                </div>
+
+                <hr class="separator" />
+            </div>
+        </aside>
+
+
+
+        <div class="page-wrapper">
+            <!-- Header -->
+            <header class="main-header " id="header">
+                <nav class="navbar navbar-static-top navbar-expand-lg">
+                    <!-- Sidebar toggle button -->
+                    <button id="sidebar-toggler" class="sidebar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+              </button>
+                    <!-- search form -->
+                    <div class="search-form d-none d-lg-inline-block">
+                    </div>
+
+                    <div class="navbar-right ">
+                        <ul class="nav navbar-nav">
+
+                            <li class="dropdown notifications-menu" style="position: relative;">
+                                <span id="notiy_num" class="text-light bg-primary text-center" style="position:absolute; top:5px; right:10px; width:20px; height:20px; border-radius:50%; z-index: 999;">
+                      {{ user.not_seen_notifications.all|length }}
+                    </span>
+                                <button class="dropdown-toggle" data-toggle="dropdown" id="notification_btn_toggle">
+                        <i class="fa fa-bell-o"></i>
+                    </button>
+                                <ul class="notification_dropdown_content visibility_view list-group" id="notification_drop_down" style="max-height: 300px; overflow-y: scroll; min-height: 100px; font-size: 13px;">
+
+                                    {% include 'NewTheme/update_notif.html'%}
+                                </ul>
+
+                            </li>
+
+                            <!-- User Account -->
+                            <li class="dropdown user-menu">
+                                <button id="profile_btn_toggle" class="dropdown-toggle nav-link" aria-haspopup="true" aria-expanded="false">
+                      <div style="width:100px; height:60px" class="d-none d-lg-inline-block">
+                        <img style="max-width: 100%; max-height:100%;"  src="{%if user.netbotuser.profile_pic %}{{ user.netbotuser.profile_pic.url }}{% else %}{% static 'images/avatar/av.png' %}{% endif %}" alt="user image">
+                      </div>
+                    </button>
+
+                                <ul class="ml-2 profile_dropdown_content visibility_view" id='profile_drop_down'>
+                                    <li class="dropdown-item row justify-content-between">
+                                        <a href="{% url 'distributor:profile' %}">
+                                            <i class="mdi mdi-account"></i> &nbsp; My Profile
+                                        </a>
+                                    </li>
+
+                                    <li class="dropdown-item row justify-content-between">
+                                        <a href="{% url 'netbotAuth:logout' %}"> <i class="mdi mdi-logout"></i> &nbsp; Log Out </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+                </nav>
+
+
+            </header>
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button> {{ message | safe }}
+            </div>
+            {% endfor %} {% block content %} {% endblock %} {% block page_modals %} {% endblock %} {% block addJs %} {% endblock %}
+
+
+            <footer class="footer mt-auto">
+                <div class="copyright bg-white">
+                    <p>
+                        &copy; <span id="copy-year">2019</span> Copyright Netbot Solutions Limited.
+                    </p>
+                </div>
+                <script>
+                    var d = new Date();
+                    var year = d.getFullYear();
+                    document.getElementById("copy-year").innerHTML = year;
+                </script>
+            </footer>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+
+    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{% static 'assets/plugins/slimscrollbar/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/charts/Chart.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/ladda/spin.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/ladda/ladda.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'newJS/sleek.js' %}"></script>
+    <script src="{% static 'newJS/chart.js' %}"></script>
+    <script src="{% static 'newJS/new.js' %}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+{% extends 'dashboard/distributor_list.html' %} {% block add_to_list %} {% if user.netbotuser.permission_group.permission.can_manage_users %}
+<a href="{% url 'distributor:add-user' %}" class="btn btn-success">Add User</a> {% else %} List Of Registered Users {% endif %} {% endblock %} {% block table_heads %}
+<th data-sortable="true">Name</th>
+<th data-sortable="true">Email</th>
+<th data-sortable="true">Phone</th>
+<th data-sortable="true">Permission Group</th>
+{% endblock %} {% block table_data %} {% for us in users_ %}
+
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ us.first_name }} {{ us.last_name }}</td>
+    <td>{{ us.user.email }}</td>
+    <td>{{ us.phone }}</td>
+    <td>{{ us.permission_group.name }}</td>
+
+    <td>
+        {% if user.netbotuser.permission_group.permission.can_manage_users %} {% include 'distri/modals/actions.html' with id=us.id name=us.last_name %} {% endif %}
+    </td>
+</tr>
+
+{% endfor %} {% endblock %} {% block edit_action %}{% url 'distributor:add-user' %}{% endblock %} {% block edit_md_title %}Edit User{% endblock %} {% block del_md_tittle %}Delete User{% endblock %}

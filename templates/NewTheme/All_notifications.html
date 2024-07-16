@@ -1,0 +1,75 @@
+{% extends 'NewTheme/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="content-wrapper">
+    <div class="content">							
+        <div class="bg-white border rounded p-2 pt-0">
+            <div class="row no-gutters justify-content-center">
+                <div class="col-lg-4 col-xl-3">
+                    <div class="profile-content-left pt-3 pb-3 px-3 px-xl-5">
+                        <div class="card text-center widget-profile px-0 border-0">
+                            <div class="card-img mx-auto" >
+                                <img style="max-width:100%; max-height:100%; object-fit: contain;"  src="{%if user.netbotuser.profile_pic %}{{ user.netbotuser.profile_pic.url }}{% else %}{% static 'images/avatar/av.png' %}{% endif %}" alt="user image">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="py-2 text-dark">{{ user.netbotuser.first_name }} {{ user.netbotuser.last_name}}</h4>
+                                <p>{{ request.user.email }}</p>
+                            </div>
+                        </div>
+    
+                        <hr class="w-100">
+    
+                        
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xl-9">
+                <h2 class="text-primary bg-light text-center mb-1 pt-2 pb-2"><i class="fa fa-bell"></i> All Notifications</h2>
+                    <div class="profile-content-right py-5 row justify-content-start">
+                        {% if not notifs|length == 0 %}
+                            {% for notification in notifs %}
+                                <div class="card col-5 m-2">
+                                    <div class="card-body">
+                                        <span>{{notification.display_text}}</span> <br>
+                                        <div class='btn btn-white justify-content-between w-100 m-0 d-flex justify-content-end align-content-center'>
+                                            <a href="{% url 'distributor:notification_details' notification.pk %}" class="p-1 justify-content-end badge badge-secondary"> <i class="fa fa-eye" aria-hidden="true"></i> View </a> &nbsp;
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                        <img src="{% static 'images/empty.png' %}" alt="No notifications were found" height="250px" width="70%">
+                        <br>
+                        <h3 class="text-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No Notifications Found</h3>
+                        {% endif %}
+                    </div>
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if notifs.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ notifs.previous_page_number }}">previous</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ notifs.number }} of {{ notifs.paginator.num_pages }}.
+                            </span>
+                    
+                            {% if notifs.has_next %}
+                                <a href="?page={{ notifs.next_page_number }}">next</a>
+                                <a href="?page={{ notifs.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+
+
+{% endblock %}

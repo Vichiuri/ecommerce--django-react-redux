@@ -1,0 +1,193 @@
+{% extends 'distri/index.html' %}
+{% load crispy_forms_filters %}
+{%load crispy_forms_tags %}
+{% block page_body %}
+ <div class="content mt-3 panel-group" id="accordion">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-7">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Regions</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <table data-toggle="table"
+                                       data-search="true" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for region in regions %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>{{ region.name }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                                 <div class="card-footer">
+                                 </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                             <form enctype="multipart/form-data" action="{% url 'distributor:dist-locations-master' distributor.id distributor.name %}" method="post">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Add A Region</h4>
+                            </div>
+
+                            <div class="card-body">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_name" value="region_form">
+                                {{ region_form|crispy }}
+
+
+                            </div>
+                                 <div class="card-footer">
+                                 <button type="submit" class="btn btn-success form-control">Save Location</button>
+                                 </div>
+
+                             </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-7">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Cities</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <table data-toggle="table"
+                                       data-search="true" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Region</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for city in cities %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>{{ city.name }}</td>
+                                        <td>{{ city.region }}</td>
+
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                                 <div class="card-footer">
+                                 </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="card">
+                            <form enctype="multipart/form-data" action="{% url 'distributor:dist-locations-master' distributor.id distributor.name %}" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Add A City</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_name" value="city_form">
+                                    {{ city_form|crispy }}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-success form-control">Save City</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="card">
+
+                            <div class="card-header">
+                                <h4 class="card-title">Areas</h4>
+                            </div>
+
+                            <div class="card-body">
+                                <table data-toggle="table"
+                                       data-search="true" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Region</th>
+                                        <th>City</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for area in areas %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>{{ area.name }}</td>
+                                        <td>{{ area.region }}</td>
+                                        <td>{{ area.city }}</td>
+
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                                 <div class="card-footer">
+                                 </div>
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card">
+                            <form enctype="multipart/form-data" action="{% url 'distributor:dist-locations-master' distributor.id distributor.name %}" method="post">
+                                <div class="card-header">
+                                    <h4 class="card-title">Add An Area</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_name" value="area_form">
+                                    {{ area_form|crispy }}
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-success form-control">Save Area</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+ </div><!-- .content -->
+{% endblock %}

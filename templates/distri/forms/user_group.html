@@ -1,0 +1,14 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}
+    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-user-groups' distributor.id distributor.name %}">&nbsp; User Groups List</a>
+{% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-user-group-add' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form1|crispy }}
+    {{ form2|crispy }}
+<input type="submit" value="Create User Group" class="btn btn-success">
+</form>
+{% endblock %}
+

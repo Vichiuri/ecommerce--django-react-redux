@@ -1,0 +1,72 @@
+{
+    "name": "biz_app",
+    "version": "1.0.0",
+    "description": "Web app for Merchandisers  and retailers",
+    "main": "index.js",
+    "scripts": {
+        "help": "webpack --help",
+        "dev": "webpack --mode development ./frontend/src/index.js --output-path ./frontend/static/js/main/",
+        "dev_prod": "webpack --mode development ./retailerview/src/index.js --output-path ./retailerview/static/js/view/",
+        "watch": "webpack --mode development --watch ./frontend/src/index.js --output-path ./frontend/static/js/main/",
+        "watch_prod": "webpack --mode development --watch ./retailerview/src/index.js --output-path ./retailerview/static/js/view/",
+        "build": "webpack --mode production ./frontend/src/index.js --output-path ./frontend/static/js/main/",
+        "build_prod": "webpack --mode production ./retailerview/src/index.js --output-path ./retailerview/static/js/view/",
+        "production": "concurrently \"npm run build\" \"npm run build_prod\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Netbotgroup/biz_app.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Netbotgroup/biz_app/issues"
+    },
+    "homepage": "https://github.com/Netbotgroup/biz_app#readme",
+    "devDependencies": {
+        "@babel/core": "^7.13.10",
+        "@babel/preset-env": "^7.13.12",
+        "@babel/preset-react": "^7.12.13",
+        "babel-loader": "^8.2.2",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "buffer": "^6.0.3",
+        "concurrently": "^6.2.0",
+        "css-loader": "^5.2.0",
+        "style-loader": "^2.0.0",
+        "webpack": "^5.28.0",
+        "webpack-cli": "^4.5.0"
+    },
+    "dependencies": {
+        "@material-ui/core": "^4.11.3",
+        "@material-ui/lab": "^4.0.0-alpha.57",
+        "@south-paw/react-vector-maps": "^3.1.0",
+        "@tinymce/tinymce-react": "^3.12.0",
+        "apexcharts": "^3.27.1",
+        "axios": "^0.21.4",
+        "chartist": "^0.10.1",
+        "chroma-js": "^2.1.1",
+        "compressorjs": "^1.0.7",
+        "export-to-csv": "^0.2.1",
+        "firebase": "^9.0.1",
+        "prop-types": "^15.7.2",
+        "react": "^17.0.2",
+        "react-apexcharts": "^1.3.9",
+        "react-app-polyfill": "^2.0.0",
+        "react-beautiful-dnd": "^13.1.0",
+        "react-bootstrap": "^1.5.2",
+        "react-chartist": "^0.14.4",
+        "react-dom": "^17.0.2",
+        "react-html-parser": "^2.0.2",
+        "react-image-file-resizer": "^0.4.3",
+        "react-infinite-scroll-component": "^6.1.0",
+        "react-redux": "^7.2.3",
+        "react-router-dom": "^5.2.0",
+        "react-select": "^4.3.0",
+        "react-select-async-paginate": "^0.5.3",
+        "react-tooltip": "^4.2.21",
+        "redux": "^4.0.5",
+        "redux-devtools-extension": "^2.13.9",
+        "redux-thunk": "^2.3.0",
+        "xlsx": "^0.17.0"
+    }
+}

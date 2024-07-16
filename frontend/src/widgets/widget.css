@@ -1,0 +1,15 @@
+.tool_tip {
+    cursor: help;
+    position: relative;
+}
+
+.tool_tip {
+    font-size: 14px;
+}
+
+.notification_pop_text {
+    max-width: 200px;
+    max-height: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

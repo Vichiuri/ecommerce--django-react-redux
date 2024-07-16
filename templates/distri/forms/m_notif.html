@@ -1,0 +1,18 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}
+    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-mobile-notifications' distributor.id distributor.name %}">&nbsp; Mobile Notifications List</a>
+{% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-mobile-add-notif' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Create Notification" class="btn btn-success">
+</form>
+{% endblock %}
+
+{% block addJs %}
+    <script type="application/javascript">
+    jQuery('#id_show_from').attr("type",'datetime-local');
+    </script>
+{% endblock %}

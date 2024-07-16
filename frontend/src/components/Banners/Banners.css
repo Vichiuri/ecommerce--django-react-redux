@@ -1,0 +1,58 @@
+.banner_img {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.banner_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+.banner_img .delete_btn {
+    /* float: right; */
+    cursor: pointer;
+    background-color: #e74c3c;
+    border: 0;
+    color: #fff;
+    font-size: 30px;
+    line-height: 20px;
+    padding: 2px 5px;
+    transform: (-100%, -100%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.banner_img:hover .delete_btn {
+    opacity: 1;
+}
+
+.banners_add {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 30px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.add_banner_img {
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.add_banner_img img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}

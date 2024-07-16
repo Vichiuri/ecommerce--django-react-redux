@@ -1,0 +1,19 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}
+    <a class="btn btn-success fa fa-reply" href="{% url 'distributor:dist-mobile-themes' distributor.id distributor.name %}">&nbsp; Mobile Themes List</a>
+{% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-mobile-add-theme' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Create Theme" class="btn btn-success">
+</form>
+{% endblock %}
+
+{% block addJs %}
+    <script type="application/javascript">
+    jQuery('#id_color').attr("type",'color');
+    </script>
+{% endblock %}
+

@@ -1,0 +1,101 @@
+{% load static %}
+{%load crispy_forms_tags %}
+{{ form|crispy }}
+<div class="row">
+    <div class="col col-sm-6">
+      <div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Current Images </h4>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for image in pr_images %}
+            <tr id="tr_id_{{ image.id }}">
+                <td>{{ forloop.counter }}</td>
+                <td><img src="{{ image.image.url }}" style="max-height: 50px;max-width: 80px; border-radius: 25%"></td>
+                <td>
+                    <button onclick="return del_image({{ image.id }})" type="button" class="btn btn-danger fa fa-trash"></button>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="card-footer">
+
+    </div>
+
+</div>
+    </div>
+    <div class="col col-sm-6">
+        <div class="card">
+    <div class="card-header">
+        <h4 class="card-title">New Images</h4>
+    </div>
+    <div class="card-body">
+        <label  >Click Anywhere In the Box Below To Add New Images</label>
+        <div id="input-images-2"  style="padding-top: .5rem;"></div>
+    </div>
+    <div class="card-footer">
+
+    </div>
+
+</div>
+    </div>
+</div>
+
+
+
+
+<script type="application/javascript" src="{% static 'vendors/image-uploader/image-uploader.min.js' %}"></script>
+    <script type="application/javascript">
+        jQuery('#input-images-2').imageUploader({
+        imagesInputName: 'new_photos',
+        maxSize: 2 * 1024 * 1024,
+        maxFiles: 10,
+        label:'Drag or Click To Upload Product Images',
+        });
+    jQuery('input[name="new_photos[]"]').attr('accept','image/*');
+    function del_image(img_id){
+        var  csrf= jQuery('input[name=csrfmiddlewaretoken]').val();
+        var formData = {
+            'csrfmiddlewaretoken':csrf,
+            'id'             : img_id,
+        };
+
+        jQuery.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '/product/del/'+img_id+'/', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+            // using the done promise callback
+            .done(function(data) {
+
+                // log data to the console so we can see
+                console.log(data);
+                Swal.fire(
+                    data.title,
+                    data.message,
+                    data.icon
+                );
+                if(data.icon=='success'){
+                    jQuery('#tr_id_'+img_id).remove();
+                }
+                // here we will handle errors and validation messages
+            });
+    }
+    </script>

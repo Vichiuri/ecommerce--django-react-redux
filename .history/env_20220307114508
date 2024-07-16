@@ -1,0 +1,15 @@
+DEBUG=true
+SECRET_KEY=hqm$8#6!fh6#ohqlo(5*^$g5(=&_zq)!tfk6jlxvb=k*a!22_f
+DB_NAME=netbott
+DB_USER=netbott
+DB_PASS=netbott@!
+DB_HOST=127.0.0.1
+DB_PORT=5432
+EMAIL_HOST=mail.smtp.com
+EMAIL_HOST_USER=noreply@netbotgroup.com
+EMAIL_PORT=465
+EMAIL_HOST_PASSWORD=Netb0t@2021!
+BASE_URL=https://scm.netbotapp.com
+MEDIA_ROOT=/home/netbot/Documents/biz_app/media
+DB_ENGINE=django.db.backends.postgresql
+# mail.netbotgroup.com,

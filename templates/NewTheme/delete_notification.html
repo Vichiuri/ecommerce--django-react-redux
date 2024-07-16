@@ -1,0 +1,30 @@
+{% extends 'NewTheme/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-6 card pt-3 mt-3 mb-5">
+        <form method="post">
+            {% csrf_token %}
+            <h4 class="text-danger">Are you sure you want to delete this Notification</h4>
+            <hr style="background:#bbb;">
+            <p class="text-secondary"><span class='badge badge-info'>Notification Tag: {{ notificationToDelete }}</span> <br> <span></span></p>
+            {% for not in notificationToDelete %}
+                {{ not }}
+            {% endfor %}
+            <!-- <p><span class='badge badge-info'>Notification Content:</span> <br> <small>{{ notificationToDelete.details }} <footer class="text-light">| By {{ notificationToDelete.action_by }}</footer></small></p> -->
+            <hr style="background:#bbb;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'distributor:notifications' %}" class="btn btn-primary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+<script>
+    let name = '{{ notificationToDelete }}';
+    console.log(name);
+</script>

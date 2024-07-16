@@ -1,0 +1,40 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+{% block table_title %}
+    Product Sub Categories
+{% endblock %}
+{% block table_heads %}
+    <th data-searchable="false">#</th>
+    <th data-sortable="true">Name</th>
+    <th data-searchable="false">Pic</th>
+    <th data-sortable="true">Category</th>
+    <th data-sortable="true">Description</th>
+    <th data-searchable="false">Actions</th>
+{% endblock %}
+
+{% block table_data %}
+    {% for sb in sub_cs %}
+        <tr>
+        <td>{{forloop.counter}}</td>
+
+        <td>{{ sb.name }}</td>
+        <td>
+            {% if sb.sub_category_pic  %}
+            <img src="{{ sb.sub_category_pic.url }}" style="max-width: 200px; max-height: 50px; border-radius: 50%">
+        {% endif %}
+        </td>
+        <td>{{ sb.category.name }}</td>
+        <td>{{ sb.description }}</td>
+        <td>
+
+            {% include 'distri/modals/actions.html' with id=sb.id name=sb.name %}
+
+        </td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+{% block edit_md_title %}Edit Product Sub Category{% endblock %}
+{% block del_md_tittle %}Delete Product Sub Category{% endblock %}
+{% block enc_type %} enctype="multipart/form-data" {% endblock %}
+{% block edit_action %}{% url 'distributor:dist-prSbCat-add_edit' distributor.id distributor.name %}{% endblock %}

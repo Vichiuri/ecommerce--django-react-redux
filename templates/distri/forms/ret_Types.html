@@ -1,0 +1,10 @@
+{% extends 'distri/forms/user.html' %}
+{%load crispy_forms_tags %}
+{% block form_title %}Client Types{% endblock %}
+{% block form_body %}
+<form action="{% url 'distributor:dist-retailerT-add' distributor.id distributor.name %}" method="post">
+{% csrf_token %}
+    {{ form|crispy }}
+<input type="submit" value="Save Retailer Type" class="btn btn-success form-control">
+</form>
+{% endblock %}

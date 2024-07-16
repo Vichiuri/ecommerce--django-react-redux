@@ -1,0 +1,330 @@
+{% extends 'NewTheme/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+  .space-between-contents {
+    position: relative;
+    width: 100%;
+    height: 40px;
+  }
+  .space-between-contents h2 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+  .space-between-contents .button {
+    position: absolute;
+    right: -20px;
+    top: 0px;
+    color: dodgerblue;
+    font-size: 18px;
+    /* background-color: #eee; */
+    padding:2px 5px;
+    border-radius: 999px;
+    transition: all 1s ease-in;
+  }
+  .space-between-contents .button button {
+    color: white;
+    margin: 0px 2px;
+  }
+  .space-between-contents .button a{
+    color: white;
+  }
+ 
+.setting-button{
+	position:fixed;
+	top:80px;
+	right:20px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+  z-index: 3;
+}
+
+.card.card-mini{
+  border-radius:10px;
+  box-shadow: 0px 0px 15px 1px rgba(0,0,0,0.2);
+  background:linear-gradient(120deg, rgb(13, 196, 228), rgb(98, 127, 225));
+  color: white;
+}
+.hidden {
+  display: none;
+  height: 50px;
+  transition: all 0.5s ease;
+}
+.drag-item{
+  opacity: 1;
+}
+.drag-item.over {
+  border: 3px dotted #666;
+  opacity: 0.4;
+}
+</style>
+
+{% if user.netbotuser.permission_group.permission.can_view_dashboard %}
+<div class="content-wrapper">	
+
+  <div class="setting-button">
+    <div class="dropdown">
+      <button type="button" class="btn btn-dark dropdown-toggle " id="viewPane_drop_toggle" aria-haspopup="true" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-eye"></i> <span class="visually-hidden"></span>
+      </button>
+      <ul class="viewPane_dropdown_content visibility_view bg-default" id="viewPane_drop_down" style="background:white">
+
+      </ul>
+    </div>
+  </div>
+  
+  <div class="content">
+    <!-- Top Statistics -->
+    <div class="row mb-4 drag-container" id="drag-container">
+
+      <div class="col-xl-3 col-sm-6 drag-item"  draggable="true" id='distributor1'  style='cursor:move;'>
+        <div class="card card-mini  mb-4">
+          <div class="card-body" href="">
+            <div class="space-between-contents">
+              <h2 class="mb-1">{{ net_users|length }}</h2>
+              <div class="button">
+                <a href="{% url 'distributor:user-list' %}"><i class="fa fa-eye"></i></a>
+                <a href="{% url 'distributor:add-user' %}"><i class="mdi mdi-plus"></i></a>
+                <button><i class="mdi mdi-window-close" aria-hidden="true" id="hideBTN1"></i></button>
+              </div>
+            </div>
+            <a href="{% url 'distributor:user-list' %}">
+            <p class='text-white'>Netbot Users</p>
+            <div class="chartjs-wrapper">
+              <canvas id="dual-line"></canvas>
+            </div>
+          </a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xl-3 col-sm-6 drag-item" draggable="true" style='cursor:move;' id='distributor0'>
+        <div class="card card-mini">
+          <div class="card-body">
+            <div class="space-between-contents">
+              <h2 class="mb-1">{{ distributors|length }}</h2>
+              <div class="button">
+                <a href="{% url 'distributor:distributor-list' %}"><i class="fa fa-eye"></i></a>
+                <a href="{% url 'distributor:add-dist' %}"><i class="mdi mdi-plus"></i></a>
+                <button><i class="mdi mdi-window-close" aria-hidden="true" id="hideBTN0"></i></button>
+              </div>
+            </div>
+            <a href="{% url 'distributor:distributor-list' %}">
+              <p class='text-white'>Registered Distributors</p>
+              <div class="chartjs-wrapper">
+                <canvas id="barChart"></canvas>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xl-3 col-sm-6 drag-item" id='distributor3' draggable="true" style='cursor:move;'>
+        <div class="card card-mini mb-4">
+          <div class="card-body">
+            <div class="space-between-contents">
+              <h2 class="mb-1">{{ retailers|length }}</h2>
+              <div class="button">
+                <button><i class="mdi mdi-window-close" aria-hidden="true" id="hideBTN3"></i></button>
+              </div>
+            </div>
+            <p>Total Retailers</p>
+            <div class="chartjs-wrapper">
+              <canvas id="line"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="col-xl-3 col-sm-6 drag-item" id='distributor2'  draggable="true"  style='cursor: move;'>
+        <div class="card card-mini mb-4">
+          <div class="card-body">
+            <div class="space-between-contents">
+              <h2 class="mb-1">{{ usg_gs|length }}</h2>
+              <div class="button">
+                <a href="{% url 'distributor:user-group-list' %}"><i class="mdi mdi-account-group"></i></a>
+                <a href="{% url 'distributor:add-user-groups' %}"><i class="mdi mdi-plus"></i></a>
+                <button><i class="mdi mdi-window-close " aria-hidden="true" id="hideBTN2"></i></button>
+              </div>
+            </div>
+            <a href="{% url 'distributor:user-group-list' %}">
+              <p class='text-white'>User Permission Group</p>
+              <div class="chartjs-wrapper">
+                <canvas id="area-chart"></canvas>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="drag-container"></div> -->
+    <div class="chartjs-wrapper row drag-container pb-4 mb-3" style="height: 60vh; cursor:move;" >
+      <div class="drag-item mt-2 col-6" draggable="true" > 
+        <a href="{% url 'distributor:subscriptions-list' %}"><h3>Number of distributors per subscription</h3></a>
+        <div class="chart-container" style="height: 60vh">
+          <canvas style="background:white" class="table-bordered p-3" id="barChart3" ></canvas>
+        </div>
+      </div>
+      <div class="drag-item mt-2 col-6" draggable="true" >
+        <a href="{% url 'distributor:dist_ret_count' %}"><h3>Top 5 distributors with most retailers</h3></a>
+        <div class="chart-container" style="height: 60vh">
+          <canvas style="background:white" class="table-bordered p-3" id="doChart" ></canvas>
+        </div>
+      </div>
+    </div>
+					
+  </div>
+</div>
+{% endif %}
+
+
+<script>
+  const draggables = document.querySelectorAll('.drag-item');
+  const containers = document.querySelectorAll('.drag-container');
+
+  draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+      draggable.classList.add('over')
+    })
+
+    draggable.addEventListener('dragend', () => {
+      draggable.classList.remove('over')
+    })
+  })
+
+  containers.forEach(container => {
+    container.addEventListener('dragover', e => {
+      e.preventDefault()
+      const afterElement = getDragAfterElement(container, e.clientX)
+      const draggable = document.querySelector('.over');
+      if (afterElement == null){
+        container.appendChild(draggable)
+      }else{
+        container.insertBefore(draggable, afterElement)
+      }
+    })
+  })
+
+  function getDragAfterElement(container, x){
+    const draggableElements = [...container.querySelectorAll('.drag-item:not(.over)')]
+
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect()
+      const offset = x - box.left - box.width / 2
+      if (offset < 0 && offset > closest.offset){
+        return { offset: offset, element: child}
+      }else{
+        return closest
+      }
+    }, { offset: Number.NEGATIVE_INFINITY}).element
+
+  }
+
+</script>
+
+<!-- Hide and show script  -->
+<script>
+
+viewHiddenItems()
+setOnClick()
+
+function setOnClick() {
+  for (let i = 0; i < 4; i++) {
+   let cardButton = document.getElementById(`hideBTN${i}`)
+    if(cardButton){
+      cardButton.addEventListener('click', () => {
+        let hiddenItems = JSON.parse(localStorage.getItem('hidden_items'))
+        let distribute =  document.getElementById(`distributor${i}`);
+        if(distribute){
+          distribute.classList.add('visibility_view')
+          let hiddenCard = {index: i, visibility: 'gone'}
+          let newArray = []
+          if(hiddenItems){  
+           newArray = hiddenItems.filter(item=>item.index!==i)
+            newArray.push(hiddenCard)
+            localStorage.setItem('hidden_items', JSON.stringify(newArray))
+          }else {
+            newArray = [hiddenCard]
+            localStorage.setItem('hidden_items', JSON.stringify(newArray))
+          }
+          updateMap(newArray)
+        }
+      })  
+    }
+  }
+}
+
+function viewHiddenItems() {
+  let hiddenItems = JSON.parse(localStorage.getItem('hidden_items'))
+  if(hiddenItems) {
+    for (let index = 0; index < hiddenItems.length; index++) {
+      const item = hiddenItems[index];
+      let cardItem =  document.getElementById(`distributor${index}`);
+      if(cardItem) {
+        if(item.visibility==='gone') {
+        cardItem.classList.add('visibility_view')
+        }else {
+        cardItem.classList.remove('visibility_view')
+        }
+      }
+    }
+
+    let hiddenMenu = document.getElementById('viewPane_drop_down')
+    for (let index = 0; index < hiddenItems.length; index++) {
+      const item = hiddenItems[index];
+      let row = document.createElement('li')
+      row.classList.add('list-group')
+      row.innerHTML = `<div class="btn list-group-item" onclick="showItem(${item.index})">View card ${item.index}</div>`
+      hiddenMenu.appendChild(row)
+    }
+  }
+}
+
+function showItem(index) {
+  let cardItem =  document.getElementById(`distributor${index}`);
+  if(cardItem) {
+    
+    cardItem.classList.remove('visibility_view')
+    let hiddenItems = JSON.parse(localStorage.getItem('hidden_items'))
+    if(hiddenItems) {
+     let newArray = hiddenItems.filter(item=>item.index!=index)
+     localStorage.setItem('hidden_items', JSON.stringify(newArray))
+     updateMap(newArray)
+    }
+  }
+}
+
+
+function updateMap(newArray) {
+  let hiddenMenu = document.getElementById('viewPane_drop_down')
+  while (hiddenMenu.firstChild) {
+    hiddenMenu.removeChild(hiddenMenu.firstChild)
+  }
+  for (let index = 0; index < newArray.length; index++) {
+      const item = newArray[index];
+      let row = document.createElement('li')
+      row.classList.add('list-group')
+      row.innerHTML = `<div class="btn list-group-item" onclick="showItem(${item.index})">View Pane ${item.index}</div>`
+      hiddenMenu.appendChild(row)
+  }
+}
+
+</script>
+
+
+<script>
+
+  document.getElementById('viewPane_drop_toggle').addEventListener('click', () =>{
+    let dropdown = document.getElementById('viewPane_drop_down')
+    dropdown.classList.toggle('visibility_view');
+})
+</script>
+
+{% endblock %}

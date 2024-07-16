@@ -1,0 +1,48 @@
+
+                        <div class="card">
+                            <!-- new code -->
+                            <!-- end of new code -->
+                            <div class="card-header">
+                                 <h4 class="card-title">Retailer: {{ ret_order.retailer.name }} {{ ret_order.retailer.pin_no }} </h4>
+                                 <h4 class="card-title">Contacts :email {{ ret_order.retailer.email }} phone:{{ ret_order.retailer.phone }} </h4>
+                                 <h4 class="card-title">Order Number: #{{ ret_order.id }}</h4>
+                                 <h4 class="card-title">Dispatched On  {{ret_order.when_dispatched  }}</h4>
+                            </div>
+
+
+                        <div class="card-body">
+                                <table data-toggle="table"
+                                        class="table table-striped table-bordered ">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-sm-1">#</th>
+                                        <th class="col-sm-2">Product</th>
+                                        <th class="col-sm-2">Quantity</th>
+                                        <th class="col-sm-1">Price Per Unit</th>
+                                        <th class="col-sm-1">Total Price</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for order in ret_order.ret_orders.all %}
+                                    <tr>
+                                        <td>{{forloop.counter }}</td>
+                                        <td>
+                                            {{ order.product.name }}<br>
+                                            {% if order.product.product_images.count > 0 %}
+                                                <img src="{{ order.product.product_images.first.image.url }}" style="width: 70px;height: 30px;border-radius: 30%;">
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ order.qty }}</td>
+                                        <td>{{ order.product.price }}</td>
+
+                                        <td>{{ order.order_price }}</td>
+                                      </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+
+
+                            </div> </div>

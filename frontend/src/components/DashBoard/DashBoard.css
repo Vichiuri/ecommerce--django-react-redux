@@ -1,0 +1,25 @@
+.dashboard_round_img {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    /* border-radius: 35px; */
+}
+
+.dashboard_round_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dashboard_product_img {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.dashboard_product_img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

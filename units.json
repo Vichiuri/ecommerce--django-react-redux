@@ -1,0 +1,25 @@
+[{
+        "name": "Kilogram",
+        "symbol": "Kg"
+    },
+    {
+        "name": "Grams",
+        "symbol": "g"
+    },
+    {
+        "name": "Litres",
+        "symbol": "ltr"
+    },
+    {
+        "name": "Millitres",
+        "symbol": "Ml"
+    },
+    {
+        "name": "Milligrams",
+        "symbol": "mg"
+    },
+    {
+        "name": "Pound",
+        "symbol": "p"
+    }
+]

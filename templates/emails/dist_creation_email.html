@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distributor Created</title>
+</head>
+<body>
+<h4>Netbot Group Limited</h4>
+<h5>A new Distributor Was Created By</h5>
+<h6 style="text-align: center">{{ creator_full_name }}</h6>
+<h6 style="text-align: center">{{ creator_phone }}</h6>
+<h6 style="text-align: center">{{ creator_email }}</h6>
+<h5 >On {{ creation_date }}</h5>
+<hr>
+<h4 style="text-align: center">Distributor Details</h4>
+<hr>
+<p>
+    <strong style="text-align: center">Name: {{ distributor.name }}</strong><br>
+    <strong style="text-align: center">Email: {{ distributor.email }}</strong><br>
+    <strong style="text-align: center">Phone: {{ distributor.phone }}</strong><br>
+    <strong style="text-align: center">Country: {{ distributor.country }}</strong><br>
+    <strong style="text-align: center">City: {{ distributor.state }}</strong><br>
+    <strong style="text-align: center">Subscription: {{ distributor.subscription }}</strong><br>
+</p>
+<h4> We Now Have <i>{{ distributor_count }}</i> Registered Distributors</h4>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{% extends 'dashboard/distributor_list.html' %}
+{% load humanize %}
+{% block add_to_list %}
+{% endblock %}
+
+{% block table_heads %}
+    <th data-sortable="true" >Name</th>
+    <th data-sortable="true" >Company</th>
+    <th data-sortable="true" >Cost</th>
+    <th data-sortable="true" >Start</th>
+    <th data-sortable="true" >End</th>
+    {% block th_action %}{% endblock %}
+{% endblock %}
+
+{% block table_data %}
+{% for sub in subs %}
+    <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ sub.subscription.period_length }} {{ sub.subscription.period_time }} {{ sub.subscription.name }}</td>
+    <td>{{ sub.distributor.name }}</td>
+    <td>{{ sub.subscription.price|intcomma }}</td>
+    <td>{{ sub.subscription_date }}</td>
+    <td>{{ sub.subscription_end_date }}</td>
+{#    <td> {% comment %}{% include 'distri/modals/actions.html' with id=sub.id name=sub.name %}{% endcomment %}</td>#}
+    </tr>
+{% endfor %}
+{% endblock %}

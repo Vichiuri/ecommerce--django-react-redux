@@ -1,0 +1,41 @@
+{% extends 'distri/lists/salesmen_list.html' %}
+{% block table_title %}
+    Orders
+{% endblock %}
+{% block add_obj_url %}
+
+     <a class="btn btn-success fa fa-plus-square" href="{% url 'distributor:dist-sales-targets-add' distributor.id distributor.name %}"> &nbsp; Add Sales Target</a>
+
+{% endblock %}
+{% block table_heads %}
+    <th>#</th>
+    <th data-sortable="true">Target Name</th>
+    <th data-sortable="true">Sales Person</th>
+    <th data-sortable="true">Target Period</th>
+    <th data-sortable="true">Target Sales</th>
+    <th data-sortable="true">Reward(Monetary)</th>
+    <th data-sortable="true">Reward(Percentage)</th>
+    <th data-sortable="true">Status</th>
+    <th data-sortable="true">Actions</th>
+
+{% endblock %}
+{% block table_data %}
+    {% for target in sales_targets %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ target.name }}</td>
+        <td>{{ target.salesman }}</td>
+        <td>{{ target.period }}</td>
+        <td>{{ target.target_sales }}</td>
+        <td>{{ target.reward_money }}</td>
+        <td>{{ target.target_per }}</td>
+        <td>{{ target.status }}</td>
+        <td>{% include 'distri/modals/actions.html' with id=target.id name=target.name %}</td>
+
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+{% block edit_action %}{% url 'distributor:dist-sales-targets-add' distributor.id distributor.name %}{% endblock %}
+{% block del_md_tittle %}Delete Sales Target{% endblock %}
+{% block edit_md_title %}Edit Sales Target{% endblock %}
