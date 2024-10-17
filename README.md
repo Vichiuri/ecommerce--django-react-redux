@@ -9,7 +9,7 @@ Both retailers and salespeople use mobile apps, developed with Flutter, to place
 
 - Django - version 3.2
 - React
-- -React
+- -Redux
 - Node js - version 14.7
 - Bash scripts - version 5.0
 
