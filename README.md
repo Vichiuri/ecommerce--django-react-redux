@@ -1,33 +1,15 @@
-# Netbot Smc
-
-> Outline a brief description of your project.
-> Live demo [_here_](https://scm.netbotapp.com/). <!-- If you have the project hosted somewhere, include the link here. -->
-
-## Table of Contents
-
-- [General Info](#general-information)
-- [Technologies Used](#technologies-used)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Project Status](#project-status)
-- [Room for Improvement](#room-for-improvement)
-- [Acknowledgements](#acknowledgements)
-- [Contact](#contact)
-<!-- * [License](#license) -->
 
 ## General Information
 
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+The project includes a comprehensive admin panel for distributors, enabling them to manage their entire retail network efficiently. From this web-based panel, distributors can register new retailers, assign salespeople to retailers, and oversee the entire order lifecycle. Distributors have full control over approving orders placed by retailers and their sales teams, ensuring seamless delivery and fulfillment. The panel also supports advanced sales force automation, allowing distributors to track sales performance, manage inventory, and streamline communication with their teams.
+
+Both retailers and salespeople use mobile apps, developed with Flutter, to place orders, providing them with flexibility and ease of access. These mobile applications are tightly integrated with the distributor's admin panel, allowing for real-time order tracking and approvals. Built using React, Redux, and Django, the system ensures a fast and scalable solution for managing large volumes of transactions. Firebase is incorporated for instant notifications, keeping retailers and salespeople updated on order statuses and delivery schedules. This dynamic platform optimizes the supply chain, enhances salesforce productivity, and ensures smooth communication between all parties involved, from order placement to final delivery.
 
 ## Technologies Used
 
 - Django - version 3.2
+- React
+- -React
 - Node js - version 14.7
 - Bash scripts - version 5.0
 
@@ -45,53 +27,8 @@ List the ready features here:
 ![Example screenshot](./static/images/customer_dashboard.png)
 ![Example screenshot](./static/images/admin_panel.png)
 
-<!-- If you have screenshots you'd like to share, include them here. -->
 
-## Setup
 
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
 
-Proceed to describe how to install / setup one's local environment / get started with the project.
 
-## Usage
 
-How does one go about using it?
-Provide various use cases and code examples here.
-
-`write-your-code-here`
-
-## Project Status
-
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
-
-## Room for Improvement
-
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
-Room for improvement:
-
-- Improvement to be done 1
-- Improvement to be done 2
-
-To do:
-
-- Feature to be added 1
-- Feature to be added 2
-
-## Acknowledgements
-
-Give credit here.
-
-- This project was inspired by...
-- This project was based on [this tutorial](https://www.example.com).
-- Many thanks to...
-
-## Contact
-
-Created by [@netbotgroup](https://netbotgroup.com/) - feel free to contact me!
-
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
-
-<!-- You don't have to include all sections - just the one's relevant to your project -->
